@@ -2,38 +2,89 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "The convective heat transfer coefficient in laminar flow over a flat plate",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Increases with distance",
+        "b": "Increases if a higher viscosity fluid is used",
+        "c": "Increases if a denser fluid is used",
+        "d": "Decreases with increase in free stream velocity"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "a",
-      "difficulty": "beginner"
-    },
-    {
-      "question": "This is a Sample Question 2?",
-      "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
-      },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "",
+        "b": "",
+        "c": "It mostly increases if a denser fluid is used.",
+        "d": ""
       },
       "correctAnswer": "c",
-      "difficulty": "beginner"
+      "difficulty": ""
+    },
+    {
+      "question": "For laminar flow over a flat plate, the average value of a Nusselt number is prescribed by the relation <br> Nu = 0.664 (Re) 0.5 (Pr) 0.33 Which of the following is then a false statement?",
+      "answers": {
+        "a": "Density has to be increased four times",
+        "b": "Plate length has to be decreased four times",
+        "c": "Specific heat has to be increased four times",
+        "d": "Dynamic viscosity has to be decreased sixteen times"
+      },
+      "explanations": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": ""
+      },
+      "correctAnswer": "d",
+      "difficulty": "The dynamic viscosity has an inverse relation to 1/6 power. To double the convective heat transfer coefficient, the dynamic viscosity has to be decreased 64 times."
+    },
+    {
+      "question": "Heat transfer ____________is conventionally known as convection heat transfer.",
+      "answers": {
+        "a": "between fluid and fluid ",
+        "b": "between a surface and a fluid",
+        "c": "only on surface",
+        "d": "None of the above"
+      },
+      "explanations": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": ""
+      },
+      "correctAnswer": "b",
+      "difficulty": ""
+    },
+    {
+      "question": "If the fluid movement is accelerated by an external device such as a fan or pump, then the process is known as?",
+      "answers": {
+        "a": "Natural convection",
+        "b": "Forced convection",
+        "c": "Both a & b",
+        "d": "None of the above"
+      },
+      "explanations": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": ""
+      },
+      "correctAnswer": "b",
+      "difficulty": ""
+    },
+    {
+      "question": "What do you mean by forced convection evaporator?",
+      "answers": {
+        "a": "This is nucleate boiling",
+        "b": "This has fan to remove vapor from the surface",
+        "c": "There is an agitator to mix the heated fluid",
+        "d": "There is an agitator to mix the heating medium such as steam"
+      },
+      "explanations": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": ""
+      },
+      "correctAnswer": "",
+      "difficulty": ""
     }
   ]
 }

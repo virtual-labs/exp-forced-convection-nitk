@@ -1,13 +1,1188 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
-</head>
-<body>
-		<!-- Your code goes here-->
+<html lang="en-US">
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+<head>
+  <meta charset="UTF-8">
+
+  <title>SOLVE - heat transfer - Heat transfer by Forced Convection</title>
+
+  <!-- DND-Required css and js files -->
+  <link rel="stylesheet" href="./css/MOMstyle.css" />
+  <script src='./js/jquery.min.js'></script>
+  <script src='./js/jquery-ui.min.js'></script>
+  <script type="text/javascript" src="./js/MOMscript.js"></script>
+  <script src="./js/graph.ob.js"></script>
+  <script src="./js/graph_use.ob.js"></script>
+  <script src="./js/graph_use2.ob.js"></script>
+  <link href="./css/mathstyle.css" rel="stylesheet" />
+  <!--Stylesheet to display Math functions -->
+
+  <script type="text/javascript" src="./js/MOMscript.js"></script>
+  <script type="text/javascript">
+    //Script specific to simulation
+
+    //controls section
+    var v = 0;
+
+    //comments section
+    var commenttext = "Some Text";
+    var calctext = "some Text";
+    var commentloc = 0;
+
+    //graphics section
+    var canvas;
+    var ctx;
+
+    //timing section
+    var simTimeId = setInterval("", '1000');
+    var TimeInterval = setInterval("", '1000');
+    var TimeInterval1 = setInterval("", '1000');
+    var time = 0;
+    var time1 = 0;
+    var time2 = 0;
+
+    //point tracing section and initial(atmospheric section)
+    var t1 = [26, 26, 27, 27.5, 26.5, 27, 28, 36];
+    var off = [0, 0, 0, 0, 0, 0, 0, 0];
+
+    var heat = 0;
+
+
+    //temporary or dummy variables for locking buttons 
+    var temp = 0;
+    var temp1 = 2;
+    var temp2 = 0;
+
+    /*
+    // for trials during development
+    function trythis()
+    { 		alert();}
+    */
+
+    //change simulation specific css content. e.g. padding on top of variable to adjust appearance in variables window
+    function editcss() {
+      $('.variable').css('padding-top', '15px');
+      $('#datatable1').css('position', 'absolute');
+      $('#datatable2').css('position', 'absolute');
+      $('#datatable1').css('left', '120px');
+      $('#datatable1').css('top', '340px');
+      $('#datatable2').css('left', '395px');
+      $('#datatable2').css('top', '340px');
+
+
+    }
+
+
+    //start of simulation here; starts the timer with increments of 0.1 seconds
+    function startsim() {
+      simTimeId = setInterval("time=time+0.1; comment1(); ", '100');
+    }
+
+    // switches state of simulation between temp 0:Playing & 1:Paused
+    function simstate() {
+      if (temp == 1) {
+
+        var imgfilename = document.getElementById('playpausebutton').src;
+        imgfilename = imgfilename.substring(imgfilename.lastIndexOf('/') + 1, imgfilename.lastIndexOf('.'));
+        if (imgfilename == "blueplaydull") {
+          time = 0;
+          document.getElementById('playpausebutton').src = "./images//bluepausedull.png";
+          temp = 0;
+          temp1 = 1;
+          offset();
+
+          TimeInterval = setInterval("time1 = time1 + .1; simperiod();", '100');
+          TimeInterval1 = setInterval("time2 = time2 + 1; varinit();", '1000');
+        }
+      }
+    }
+    //restart simulation temp1 == 0: can restart experienment and variable initilization
+    function rotstate() {
+      if (temp1 == 0) {
+        temp2 = 0; temp1 = 2;
+        location.reload();
+      }
+    }
+
+
+    //offset for thermometer and temp change 
+    function offset() {
+      if (v == 10) {
+        off[0] = 4.2;
+        off[1] = 4.6;
+        off[2] = 4.4;
+        off[3] = 4.5;
+        off[4] = 4.7;
+        off[5] = 4.6;
+        off[6] = 4.6;
+        
+      }
+      if (v == 20) {
+        off[0] = 4.4;
+        off[1] = 4.8;
+        off[2] = 4.6;
+        off[3] = 4.5;
+        off[4] = 4.7;
+        off[5] = 4.6;
+        off[6] = 4.6;
+      }
+    }
+    //stops simulations
+    function simperiod() {
+      if (time1 >= 5.0) {
+        clearInterval(TimeInterval);
+        clearInterval(TimeInterval1);
+        time1 = 0;
+        time2 = 0;
+        temp1 = 0;
+        temp2 = 1;
+        document.getElementById('playpausebutton').src = "./images//blueplaydull.png";
+        //watertemp();
+        printcomment("", 2);
+
+
+
+
+      }
+      else {
+        drawGradient();
+        draw_array();
+        printcomment("Wait for " + (5 - Math.round(time1)) + " seconds for steady state", 2);
+      }
+    }
+    //switch screen here temp2 = 1: can switch; else it locks  
+    function switchscreen() {
+      if (temp2 == 1) {
+        var imgfilename = document.getElementById('switchbutton').src;
+        imgfilename = imgfilename.substring(imgfilename.lastIndexOf('/') + 1, imgfilename.lastIndexOf('.'));
+        if (imgfilename == "bluefwddulls") {
+          temp1 = 1;
+          document.getElementById('switchbutton').src = "./images//bluebkdulls.png";
+          document.getElementById('calculation').style.visibility = "visible";
+          document.getElementById('simscreen').style.visibility = "hidden";
+          document.getElementById('textbox').style.visibility = "hidden";
+          // document.getElementById('textbox1').style.visibility = "hidden";
+          printcomment("<i>dp</i> - 40 mm  <i>do </i> - 20 mm <br> <i>specimen dimension</i> - 23x300 mm ", 0)
+          calc();
+        }
+        if (imgfilename == "bluebkdulls") {
+          temp1 = 0;
+          document.getElementById('switchbutton').src = "./images//bluefwddulls.png";
+          document.getElementById('calculation').style.visibility = "hidden";
+          document.getElementById('calculation2').style.visibility = "hidden";
+          document.getElementById('simscreen').style.visibility = "visible";
+          document.getElementById('textbox').style.visibility = "visible";
+          //document.getElementById('textbox1').style.visibility = "visible";
+          temp2 = 1;
+          printcomment("<i>dp</i> - 40 mm  <i>do </i> - 20 mm <br> <i>specimen dimension</i> - 23x300 mm ", 1)
+          $("#symbol1").attr("style", "visibility:hidden");
+          $("#symbol2").attr("style", "visibility:hidden");
+          $("#symbol3").attr("style", "visibility:hidden");
+          $("#symbol4").attr("style", "visibility:hidden");
+          $("#symbol5").attr("style", "visibility:hidden");
+          $("#symbol6").attr("style", "visibility:hidden");
+          $("#symbol7").attr("style", "visibility:hidden");
+          $("#symbol8").attr("style", "visibility:hidden");
+          $("#symbol9").attr("style", "visibility:hidden");
+          $("#symbol10").attr("style", "visibility:hidden");
+          $("#symbol11").attr("style", "visibility:hidden");
+          $("#symbol12").attr("style", "visibility:hidden");
+          $("#symbol13").attr("style", "visibility:hidden");
+          $("#symbol14").attr("style", "visibility:hidden");
+          $("#symbol15").attr("style", "visibility:hidden");
+          $("#symbol16").attr("style", "visibility:hidden");
+
+          let content = '';
+          $("#answer1").html(content);
+          $("#answer2").html(content);
+          $("#answer3").html(content);
+          $("#answer4").html(content);
+          $("#answer5").html(content);
+          $("#answer6").html(content);
+          $("#answer7").html(content);
+          $("#answer8").html(content);
+        }
+      }
+    }
+    function switchscreencalc() {
+      document.getElementById('calculation').style.visibility = "hidden";
+      document.getElementById('calculation2').style.visibility = "visible";
+      $("#symbol1").attr("style", "visibility:hidden");
+      $("#symbol2").attr("style", "visibility:hidden");
+      $("#symbol3").attr("style", "visibility:hidden");
+      $("#symbol4").attr("style", "visibility:hidden");
+      $("#symbol5").attr("style", "visibility:hidden");
+      $("#symbol6").attr("style", "visibility:hidden");
+      $("#symbol7").attr("style", "visibility:hidden");
+      $("#symbol8").attr("style", "visibility:hidden");
+
+      let content = '';
+      $("#answer1").html(content);
+      $("#answer2").html(content);
+      $("#answer3").html(content);
+      $("#answer4").html(content);
+
+    }
+    function switchscreencalc2() {
+      document.getElementById('calculation').style.visibility = "visible";
+      document.getElementById('calculation2').style.visibility = "hidden";
+      
+      $("#symbol9").attr("style", "visibility:hidden");
+      $("#symbol10").attr("style", "visibility:hidden");
+      $("#symbol11").attr("style", "visibility:hidden");
+      $("#symbol12").attr("style", "visibility:hidden");
+      $("#symbol13").attr("style", "visibility:hidden");
+      $("#symbol14").attr("style", "visibility:hidden");
+      $("#symbol15").attr("style", "visibility:hidden");
+      $("#symbol16").attr("style", "visibility:hidden");
+      let content = '';
+      $("#answer5").html(content);
+      $("#answer6").html(content);
+      $("#answer7").html(content);
+      $("#answer8").html(content);
+
+    }
+
+    //Calculations of the experienment
+    function calc() {
+      //variables calculations 
+
+      var ans = [];
+      if(v==10){
+        ans[1] = 1.1652
+        ans[2] = 291.79
+        ans[3] = 46.88
+        ans[4] = 30
+        ans[5] = 4.42
+        ans[6] = 107.50
+        ans[7] = 118.51
+        ans[8] = 54.72
+      }
+      else if(v ==20){
+        ans[1] = 1.1652
+        ans[2] = 291.79
+        ans[3] = 46.88
+        ans[4] = 30
+        ans[5] = 4.42
+        ans[6] = 107.5
+        ans[7] = 118.51
+        ans[8] = 54.84
+      }
+      else{
+        ans[1] = 0
+        ans[2] = 0
+        ans[3] = 0
+        ans[4] = 0
+        ans[5] = 0
+        ans[6] = 0
+        ans[7] = 0
+        ans[8] = 0
+      }
+
+      $("#msubmit").click(function () {
+        $("#symbol2").attr("style", "visibility:hidden");
+        $("#symbol1").attr("style", "visibility:hidden");
+
+        if ($("#mvalue").val() == ans[1]) {
+          $("#symbol2").attr("style", "visibility:visible; color: #028102;");
+          var content = '';
+        }
+        else {
+          $("#symbol1").attr("style", "visibility:visible; color:red;");
+          var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> mass density = ' + ans[1] + '</span> ';
+        }
+
+        $("#answer1").html(content);
+      });
+
+      $("#hsubmit").click(function () {
+        $("#symbol4").attr("style", "visibility:hidden");
+        $("#symbol3").attr("style", "visibility:hidden");
+
+        if ($("#hvalue").val() == ans[2]) {
+          $("#symbol4").attr("style", "visibility:visible; color:#028102;");
+          var content = '';
+        }
+        else {
+          $("#symbol3").attr("style", "visibility:visible; color:red;");
+          var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> pressure drop = ' + ans[2] + '</span> ';
+        }
+        $("#answer2").html(content);
+      });
+
+      $("#vsubmit").click(function () {
+        $("#symbol6").attr("style", "visibility:hidden");
+        $("#symbol5").attr("style", "visibility:hidden");
+
+        if ($("#vvalue").val() == ans[3]) {
+          $("#symbol6").attr("style", "visibility:visible; color:#028102;");
+          var content = '';
+        }
+        else {
+          $("#symbol5").attr("style", "visibility:visible; color:red;");
+          var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Vo = ' + ans[3] + '</span> ';
+        }
+        $("#answer3").html(content);
+      });
+
+      $("#vasubmit").click(function () {
+        $("#symbol8").attr("style", "visibility:hidden");
+        $("#symbol7").attr("style", "visibility:hidden");
+
+        if ($("#vavalue").val() == ans[4]) {
+          $("#symbol8").attr("style", "visibility:visible; color:#028102;");
+          var content = '';
+        }
+        else {
+          $("#symbol7").attr("style", "visibility:visible; color:red;");
+          var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Va = ' + ans[4] + '</span> ';
+        }
+        $("#answer4").html(content);
+      });
+
+
+      $("#rsubmit").click(function () {
+        $("#symbol10").attr("style", "visibility:hidden");
+        $("#symbol9").attr("style", "visibility:hidden");
+
+        if ($("#rvalue").val() == ans[5]) {
+          $("#symbol10").attr("style", "visibility:visible; color:#028102;");
+          var content = '';
+        }
+        else {
+          $("#symbol9").attr("style", "visibility:visible; color:red;");
+          var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Re = ' + ans[5] + '</span> ';
+        }
+        $("#answer5").html(content);
+      });
+
+      $("#nsubmit").click(function () {
+        $("#symbol12").attr("style", "visibility:hidden");
+        $("#symbol11").attr("style", "visibility:hidden");
+
+        if ($("#nvalue").val() == ans[6]) {
+          $("#symbol12").attr("style", "visibility:visible; color:#028102;");
+          var content = '';
+        }
+        else {
+          $("#symbol11").attr("style", "visibility:visible; color:red;");
+          var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Nu = ' + ans[6] + '</span> ';
+        }
+        $("#answer6").html(content);
+      });
+
+      $("#hfsubmit").click(function () {
+        $("#symbol14").attr("style", "visibility:hidden");
+        $("#symbol13").attr("style", "visibility:hidden");
+
+        if ($("#hfvalue").val() == ans[7]) {
+          $("#symbol14").attr("style", "visibility:visible; color:#028102;");
+          var content = '';
+        }
+        else {
+          $("#symbol13").attr("style", "visibility:visible; color:red;");
+          var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> h = ' + ans[7] + '</span> ';
+        }
+        $("#answer7").html(content);
+      });
+
+
+      $("#qsubmit").click(function () {
+        $("#symbol16").attr("style", "visibility:hidden");
+        $("#symbol15").attr("style", "visibility:hidden");
+
+        if ($("#qvalue").val() == ans[8]) {
+          $("#symbol16").attr("style", "visibility:visible; color:#028102;");
+          var content = '';
+        }
+        else {
+          $("#symbol15").attr("style", "visibility:visible; color:red;");
+          var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Qc = ' + ans[8] + '</span> ';
+        }
+        $("#answer8").html(content);
+      });
+
+    }
+
+    //draw gradient w.r.t. time in thermometer water flow and heater
+    function drawGradient() {
+
+
+      //heater simulation
+      var h = 400 * time1;
+      //create gradient
+      var grd1 = ctx.createLinearGradient(0, 0, 0, h)
+      grd1.addColorStop(0, "red");
+      grd1.addColorStop(1, "white");
+      // Fill with gradient
+      ctx.fillStyle = grd1;
+      ctx.fillRect(200, 180.5, 260, 4);
+
+
+      //outer parallel tube simulation
+      var t1 = 70 * time1;
+      //create gradient
+      var grd2 = ctx.createLinearGradient(0, 0, 0, t1)
+      grd2.addColorStop(0, "#FF0000");
+      grd2.addColorStop(1, "white");
+      // Fill with gradient
+      ctx.fillStyle = grd2;
+      ctx.fillRect(200, 186, 260, 29);
+
+
+
+      //left part
+
+
+      var t6 = 70 * time1;
+      var y6 = 370 - t6;
+
+      //create gradient
+      var grd3 = ctx.createLinearGradient(0, 370, 0, y6)
+      grd3.addColorStop(0, "#FF0000");
+      grd3.addColorStop(1, "white");
+      //Fill with gradient
+      ctx.fillStyle = grd3;
+      ctx.fillRect(200, 150.5, 260, 28.5);
+
+
+      //   //cross sectional simulation
+      //   var x = 168,
+      //     y = 281,
+      //     // Radii of the white glow.
+      //     innerRadius = 4*time1,
+      //     outerRadius = 10*time1,
+      //     // Radius of the entire circle.
+      //     radius = 50;
+
+      // var gradient = ctx.createRadialGradient(x, y, innerRadius, x, y, outerRadius);
+      // //gradient.addColorStop(0, 'white');
+      // gradient.addColorStop(0, '#ff9999');
+      // gradient.addColorStop(.59,"#99ccff");
+      // gradient.addColorStop(1, 'white');
+
+      // ctx.arc(168, 281, radius, 0, 2 * Math.PI);
+
+      // ctx.fillStyle = gradient;
+      // ctx.fill();
+
+      // //thermometer heights add offset
+      //if(time1 > 0){  th[0] += .8;};
+      //if(time1 > 0){  th[1] += .75;};
+      //if(time1 > 1){  th[2] += .6;};
+      //if(time1 > 1){  th[3] += .65;};
+      //if(time1 > 2){  th[4] += .4;};
+      //if(time1 > 2){  th[5] += .35;};
+
+      //thermometers drawing
+      //ctx.fillStyle = "black";
+      //ctx.lineJoin = "round";
+
+      //thermometer reading
+      //ctx.beginPath();
+      //ctx.fillRect(273.25, 355, 1.5, -th[0]);
+      //ctx.fillRect(325.25, 355, 1.5, -th[1]);
+      //ctx.fillRect(373.25, 355, 1.5, -th[2]);
+      //ctx.fillRect(425,    355, 1.5, -th[3]);
+      //ctx.fillRect(473.25, 355, 1.5, -th[4]);
+      //ctx.fillRect(525.25, 355, 1.5, -th[5]);
+      //  ctx.arc(168, 281, 50, 0, 2 * Math.PI);   
+      //  ctx.stroke();
+      //  ctx.beginPath();
+      //  ctx.arc(168, 281, 20, 0, 2 * Math.PI);
+      //  ctx.stroke();
+    }
+
+    function draw_array() {
+      ctx.beginPath()
+      let y = time1 * 100;
+      console.log(time2);
+
+      ctx.clearRect(188, 115, 550, 10);
+      ctx.clearRect(188, 240, 550, 10);
+
+
+      if (time1 <= 0.1 || (time1 > 2.0 && time1 <= 2.1)) {
+        ctx.clearRect(134, 134, 37, 97);
+
+        ctx.moveTo(90, 170);
+        ctx.lineTo(120, 170);
+        ctx.lineTo(115, 166);
+        ctx.moveTo(120, 170);
+        ctx.lineTo(115, 173);
+
+        ctx.moveTo(90, 195);
+        ctx.lineTo(120, 195);
+        ctx.lineTo(115, 191);
+        ctx.moveTo(120, 195);
+        ctx.lineTo(115, 198);
+      }
+      else if ((time1 > 0.1 && time1 <= .2) || (time1 > 2.1 && time1 <= 2.2)) {
+        ctx.clearRect(88, 165, 33, 34);
+
+        ctx.moveTo(135, 160);
+        ctx.lineTo(170, 135);
+        ctx.lineTo(162, 136);
+        ctx.moveTo(170, 135);
+        ctx.lineTo(167, 142);
+
+        ctx.moveTo(135, 205);
+        ctx.lineTo(170, 230);
+        ctx.lineTo(162, 229);
+        ctx.moveTo(170, 230);
+        ctx.lineTo(167, 222);
+
+      }
+      else {
+        ctx.clearRect(88, 165, 33, 34);
+        ctx.clearRect(134, 134, 37, 97);
+
+
+        ctx.moveTo((190 + (time1 - .3) * 200), 120);
+        ctx.lineTo((220 + (time1 - .3) * 200), 120);
+        ctx.lineTo((215 + (time1 - .3) * 200), 116);
+        ctx.moveTo((220 + (time1 - .3) * 200), 120);
+        ctx.lineTo((215 + (time1 - .3) * 200), 123);
+
+        ctx.moveTo((190 + (time1 - .3) * 200), 245);
+        ctx.lineTo((220 + (time1 - .3) * 200), 245);
+        ctx.lineTo((215 + (time1 - .3) * 200), 241);
+        ctx.moveTo((220 + (time1 - .3) * 200), 245);
+        ctx.lineTo((215 + (time1 - .3) * 200), 248);
+
+        if (time1 > 2.3) {
+          ctx.moveTo((190 + (time1 - 2.3) * 200), 120);
+          ctx.lineTo((220 + (time1 - 2.3) * 200), 120);
+          ctx.lineTo((215 + (time1 - 2.3) * 200), 116);
+          ctx.moveTo((220 + (time1 - 2.3) * 200), 120);
+          ctx.lineTo((215 + (time1 - 2.3) * 200), 123);
+
+          ctx.moveTo((190 + (time1 - 2.3) * 200), 245);
+          ctx.lineTo((220 + (time1 - 2.3) * 200), 245);
+          ctx.lineTo((215 + (time1 - 2.3) * 200), 241);
+          ctx.moveTo((220 + (time1 - 2.3) * 200), 245);
+          ctx.lineTo((215 + (time1 - 2.3) * 200), 248);
+        }
+      }
+
+
+
+
+
+
+      //ctx.moveTo(205, 120);
+      //ctx.lineTo(205, 60);
+      //ctx.lineTo(200, 70);
+      //ctx.moveTo(205, 60);
+      //ctx.lineTo(210, 70);
+
+      //ctx.moveTo(325, 120);
+      //ctx.lineTo(325, 60);
+      //ctx.lineTo(320, 70);
+      //ctx.moveTo(325, 60);
+      //ctx.lineTo(330, 70);
+
+      ctx.stroke();
+    }
+
+
+    // initial model 
+    function drawModel() {
+      canvas = document.getElementById("simscreen");
+      ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, 550, 400);  //clears the complete canvas#simscreen everytime
+
+      // var background = new Image();
+      // background.src = "./images//model2.jpg";
+
+      // // Make sure the image is loaded first otherwise nothing will draw.
+      // background.onload = function(){
+      //   ctx.drawImage(background, 0, 0, 550, 400); 
+      //ctx.clearRect(78, 210, 46, 64);
+
+
+
+      ctx.font = "bold 15px Comic Sans MS";
+      //ctx.fillText("pressed", 5, 15);
+      //ctx.fillText("Wood", 10, 35);
+      ctx.fillText("Copper", 470, 172.5);
+      ctx.fillText("tube", 470, 195.5);
+      ctx.fillText("blower", 5, 275);
+      ctx.fillText("G.I. pipe dia(dp)", 330, 290);
+      ctx.fillText("Orifice dia(do)", 110, 90);
+
+      ctx.fillText("1", 70, 150);
+
+      ctx.fillText("2", 243, 227);
+      ctx.fillText("3", 286.5, 227);
+      ctx.fillText("4", 330, 227);
+      ctx.fillText("5", 373, 227);
+      ctx.fillText("6", 416.5, 227);
+
+      ctx.fillText("7", 500, 92.5);
+
+
+      //thermometers
+      ctx.fillStyle = "black";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      //ctx.rect(216, 250, 11, 112);
+      //ctx.fillRect(220, 352, 4, 7);
+      //ctx.rect(268, 250, 11, 112);
+      //ctx.fillRect(272, 352, 4, 7);
+      //ctx.rect(420, 250, 11, 112);
+      //ctx.fillRect(424, 352, 4, 7);
+      //ctx.rect(468, 250, 11, 112);
+      //ctx.fillRect(472, 352, 4, 7);
+      //ctx.rect(320, 250, 11, 112);
+      //ctx.fillRect(324, 352, 4, 7);
+      //ctx.rect(368, 250, 11, 112);
+      //ctx.fillRect(372, 352, 4, 7);
+      //ctx.rect(520, 250, 11, 112);
+      //ctx.fillRect(524, 352, 4, 7);
+      //  ctx.rect(60, 78, 280, 30);
+      //  ctx.rect(80, 58, 240, 20);
+      //ctx.rect(30, 60, 50, 150);
+
+      ctx.rect(200, 150, 260, 65);
+      ctx.rect(200, 180, 260, 5);
+
+      ctx.rect(10, 120, 30, 120);
+      ctx.rect(41, 140, 5, 80);
+      //ctx.rect(240, 60, 50, 150);
+      //ctx.rect(290, 60, 50, 150);
+      //ctx.rect(296, 117, 15, 2)
+      ctx.stroke();
+      //  ctx.clearRect(296, 127, 15, 2)
+      //  ctx.clearRect(84, 57, 15, 2)
+      ctx.beginPath()
+      ctx.moveTo(80, 30);
+      ctx.lineTo(80, 110);
+      ctx.lineTo(480, 110);
+      ctx.lineTo(480, 30);
+      //ctx.moveTo(105, 60);
+      ctx.moveTo(80, 335);
+      ctx.lineTo(80, 255);
+      ctx.lineTo(480, 255);
+      ctx.lineTo(480, 335);
+
+      ctx.moveTo(110, 100);
+      ctx.lineTo(110, 150);
+      ctx.moveTo(110, 265);
+      ctx.lineTo(110, 215);
+
+
+
+
+      //array 
+
+
+
+      ctx.stroke();
+
+
+      drawGradient();
+      printcomment("<i>dp</i> - 40 mm  <i>do </i> - 20 mm <br> <i>specimen dimension</i> - 23x300 mm ", 1)
+    }
+    //}
+
+
+    //check wether a voltage and water flow is selected
+    function comment1() {
+      $("#vspinner").spinner({ change: function () { v = $("#vspinner").spinner("value"); } });
+
+      if (v != 0) {
+        time = 0;
+        temp = 1;
+        $("#vspinner").spinner({ disabled: true });
+        $("#vslider").slider({ disabled: true });
+
+        clearInterval(simTimeId);
+      }
+    }
+
+    //Change in Variables with respect to time
+    function varinit() {
+      varchange();
+      //Variable r1 slider and number input types
+      $('#vslider').slider("value", v);
+      $('#vspinner').spinner("value", v);
+
+
+
+      if (time2 > 0) { t1[0] += off[0]; };
+      if (time2 > 0) { t1[1] += off[1]; };
+      if (time2 > 0) { t1[2] += off[2]; };
+      if (time2 > 0) { t1[3] += off[3]; };
+      if (time2 > 0) { t1[4] += off[4]; };
+      if (time2 > 0) { t1[5] += off[5]; };
+      if (time2 > 0) { t1[6] += off[6]; };
+
+      if (v == "10") {
+        heat = 26.66;
+
+      }
+      else if(v =="20"){
+        heat = 33.6;
+      }
+      else {
+        heat = 0;
+
+      }
+
+      $("#heat").spinner("value", heat);
+
+      $('#temp1').spinner("value", t1[0]);
+
+      $('#temp2').spinner("value", t1[1]);
+
+      $('#temp3').spinner("value", t1[2]);
+
+      $('#temp4').spinner("value", t1[3]);
+
+      $('#temp5').spinner("value", t1[4]);
+
+      $('#temp6').spinner("value", t1[5]);
+
+      $('#temp7').spinner("value", t1[6]);
+
+
+    }
+
+
+
+    // Initialise and Monitor variable containing user inputs of system parameters.
+    //change #id and repeat block for new variable. Make sure new <div> with appropriate #id is included in the markup
+    function varchange() {
+      //Variable f slider and number input types
+      $('#vslider').slider({ max: 20, min: 0, step: 10 });		// slider initialisation : jQuery widget
+      $('#vspinner').spinner({ max: 20, min: 0, step: 10 });		// number initialisation : jQuery widget			
+      // monitoring change in value and connecting slider and number
+      // setting trace point coordinate arrays to empty on change of link length
+      $("#vslider").on("slide", function (e, ui) { $('#vspinner').spinner("value", ui.value); ptx = []; pty = []; j = 0; });
+      $("#vspinner").on("spin", function (e, ui) { $('#vslider').slider("value", ui.value); ptx = []; pty = []; j = 0; });
+      $("#vspinner").on("change", function () { varchange() });
+
+
+      $('#heat').spinner({ max: 200, min: 0, step: .001 });		// number initialisation : jQuery widget 
+
+
+      //Variables Temp1 to temp4 number input types disabled will fill automatically
+      $('#temp1').spinner({ max: 1000, min: 0, step: .1 });		// number initialisation : jQuery widget		
+      $('#temp2').spinner({ max: 1000, min: 0, step: .1 });		// number initialisation : jQuery widget			
+      $('#temp3').spinner({ max: 1000, min: 0, step: .1 });		// number initialisation : jQuery widget			
+      $('#temp4').spinner({ max: 1000, min: 0, step: .1 });		// number initialisation : jQuery widget				
+      $('#temp5').spinner({ max: 1000, min: 0, step: .1 });		// number initialisation : jQuery widget			
+      $('#temp6').spinner({ max: 1000, min: 0, step: .1 });		// number initialisation : jQuery widget			
+      $('#temp7').spinner({ max: 1000, min: 0, step: .1 });		// number initialisation : jQuery widget		
+
+    }
+
+
+
+
+    // prints comments passed as 'commenttext' in location specified by 'commentloc' in the comments box;
+    // 0 : Single comment box, 1 : Left comment box, 2 : Right comment box
+    function printcomment(commenttext, commentloc) {
+      if (commentloc == 0) {
+        document.getElementById('commentboxright').style.visibility = 'hidden';
+        document.getElementById('commentboxleft').style.width = '570px';
+        document.getElementById('commentboxleft').style.textAlign = 'center';
+        document.getElementById('commentboxleft').innerHTML = commenttext;
+      }
+      else if (commentloc == 1) {
+        document.getElementById('commentboxright').style.visibility = 'visible';
+        document.getElementById('commentboxleft').style.width = '285px';
+        document.getElementById('commentboxleft').innerHTML = commenttext;
+      }
+      else if (commentloc == 2) {
+        document.getElementById('commentboxright').style.visibility = 'visible';
+        document.getElementById('commentboxleft').style.width = '285px';
+        document.getElementById('commentboxright').innerHTML = commenttext;
+      }
+      else {
+        document.getElementById('commentboxright').style.visibility = 'hidden';
+        document.getElementById('commentboxleft').style.width = '570px';
+        document.getElementById('commentboxleft').innerHTML = "<center>please report this issue to adityaraman@gmail.com</center>";
+        // ignore use of deprecated tag <center> . Code is executed only if printcomment function receives inappropriate commentloc value
+      }
+    }
+
+  </script>
+
+
+
+</head>
+
+<body onload="editcss(); drawModel(); startsim(); varinit();">
+
+  <!-- DND-Verifying JavaScript is enabled in browser -->
+  <noscript>
+    The simulation requires JavaScript to be enabled.
+  </noscript>
+
+  <!-- 
+Author : Sai Aditya Raman 
+send an email to adityaraman09@gmail.com for any communication
+-->
+
+  <!-- Defining Container for Simulation -->
+  <div id="container">
+
+    <!-- Replace TITLE with simulation title to be displayed next to logo-->
+    <div id="simtitle">Heat transfer by Forced Convection</div>
+
+    <!-- Region for simulation display -->
+    <canvas id="simscreen" height="400px" width="550px"></canvas>
+    <div id="textbox" style="position: absolute; left:280px; top: 460px; width:300px; height:50px; ">
+      <p style='font-family: "Comic Sans MS", cursive, sans-serif; font-size: 13px;' ;>
+        <!--&nbsp; &nbsp; T1 &nbsp; &nbsp; &nbsp; &nbsp; T2&nbsp; &nbsp; &nbsp; &nbsp; T3&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; T4 &nbsp;
+     &nbsp; &nbsp; &nbsp;T5 &nbsp; &nbsp; &nbsp; &nbsp; T6 -->
+      </p>
+    </div>
+    <!-- <div id="textbox1" style="position: absolute; left:75px; top: 425px; width:250px; height:50px;">
+      <p style='font-family: "Comic Sans MS", cursive, sans-serif; font-size: 13px; text-align: center;'>Cross Sectional
+        View<br> A-A</p>
+    </div>
+    <div style="position: absolute; left:105px; top: 70px; width:360px; height:50px;">
+      <p id="textbox2" style='font-family: "Comic Sans MS", cursive, sans-serif; font-size: 25px; text-align: center;'>
+      </p>
+    </div> -->
+
+    <!-- Region for calculation visible after onclick switchbutton-->
+    <div id="calculation" style="visibility: hidden; ">
+      <!-- <div id="formula">
+        Ts = T1 + T2 +...+T7/7 K <br>
+        Ta = T8 K <br>
+        Tm = Ts + Ta/2 K
+      </div> -->
+      <!-- left side variables -->
+      <div>
+        <div>
+          <p><b>Mass Density of air, </b></p>
+          <div class="tooltip"><label for="mvalue"><i> &rho;a = </i></label><input type="number" id="mvalue"
+              style="width: 125px;"> kg/m<sup>3</sup>
+            <span class="tooltiptext">
+              <p> &rho;a =
+                <span style="font-size: large;" class="frac"><sup>P</sup><span>&frasl;</span><sub>R.T<sub>R</sub></sub>
+                </span>
+              </p>
+              <p>p<sub>atm</sub> - 101325 N/m<sup>2</sup></p>
+              <p>T<sub>atm</sub> - 303 K</p>
+              <p>R - 287 J/kg</p>
+              <p>upto four decimal places</p>
+            </span>
+          </div>
+          <p><input type="button" value="Check" id="msubmit" style="position: relative; left: 110px;">
+            <span id="symbol1" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span>
+            <span id="symbol2"
+              style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span>
+          </p>
+          <div id="answer1"></div>
+        </div>
+        <div>
+          <p><b> Pressure drop,</b></p>
+          <div class="tooltip"><label for="hvalue"><i> ha = </i></label><input type="number" id="hvalue"
+              style="width: 125px;"> m
+            <span class="tooltiptext">
+              <p>ha =
+                <span style="font-size: large;" class="frac"><sup> &rho;m.hm </sup>
+                  <span>&frasl;</span> <sub> &rho;a </sub></span>
+              <p>&rho;m(mercury) - 13600 kg/m<sup>3</sup></p>
+              <p>manometer reading hm - 25 mm</p>
+              </p>
+              <p>upto two decimal places</p>
+            </span>
+          </div>
+          <p><input type="button" value="Check" id="hsubmit" style="position: relative; left: 110px;">
+            <span id="symbol3" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span>
+            <span id="symbol4"
+              style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span>
+          </p>
+          <div id="answer2"></div>
+        </div>
+      </div>
+      <!-- right side variables -->
+      <div style="position: absolute; top: 1px; left: 275px; width: 275px; height: 400px;  text-align: center;">
+        <div>
+          <p><b> V<sub>air</sub> at orifice,</b></p>
+          <div class="tooltip"><label for="vvalue"><i> Vo </i></label><input type="number" id="vvalue"
+              style="width: 125px;"> m/s
+            <span class="tooltiptext">
+              <p> Vo = Cd.<span style="font-size: large;" class="frac"><sup> (2.g.ha)<sup>1/2</sup> </sup>
+                <span>&frasl;</span> <sub> (1 - (do/dp)<sup>4</sup>)<sup>1/2</sup> </sub></span>
+              </p>
+              <p> Cd - 0.6 </p>
+              <p>upto two decimal places</p>
+            </span>
+          </div>
+
+          <p><input type="button" value="Check" id="vsubmit" style="position: relative; left: 100px;">
+            <span id="symbol5" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span>
+            <span id="symbol6"
+              style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span>
+          </p>
+          <div id="answer3"></div>
+        </div> 
+
+        <div>
+          <p><b> V<sub>air</sub> in the tube,</b></p>
+          <div class="tooltip"><label for="vavalue"><i> Va </i></label><input type="number" id="vavalue"
+              style="width: 125px;"> m/s
+            <span class="tooltiptext">
+              <p> Vo = <span style="font-size: large;" class="frac"><sup> Vo.do<sup>2</sup> </sup>
+                <span>&frasl;</span> <sub> ds<sup>2</sup> </sub></span>
+              </p>
+              <p>upto two decimal places</p>
+            </span>
+          </div>
+
+          <p><input type="button" value="Check" id="vasubmit" style="position: relative; left: 100px;">
+            <span id="symbol7" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span>
+            <span id="symbol8"
+              style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span>
+          </p>
+          <div id="answer4"></div>
+        </div> 
+        
+        
+      </div>
+      <!-- <p><span style=" color: #028102;">Correct answer</span  ><span style="color: #e7722b"> K = "++" </span></p> -->
+
+      <!-- <div
+        style="position: absolute; top: 2px; left: 245px; width: 300px; height: 30px; font-size: large; text-align: center;">
+        <b>Temperature distribution</b>
+      </div> -->
+      <!-- <div style="position: absolute; top: 20px; left: 245px; width: 300px; text-align: center;"> <p> T = <span class="frac"><sup>Q.ln(r2/r)</sup><span>&frasl;</span><sub>2.&Pi;.l/Keff</sub></span></p></div> -->
+      <!-- <div id="graph" style="position: absolute;left:245px; top: 50px; width:300px; height:250px;">
+      </div> -->
+      <div id="togglecalc" style="position:absolute; left:500px; top: 340px;">
+        <img id="switchbuttoncalc" onclick="switchscreencalc()" src="./images//bluefwddulls.png" />
+      </div>
+    </div>
+    <div id="calculation2" style="visibility:hidden;">
+      <div id="formula">
+        Tm = Ts + Ta/2 K <br>
+        Ts = T2+T3+T4+T5+T6/5 K <br>
+        Ta = 303 K <br>
+      </div>
+      <div>
+        <div>
+          <p><b>Reynolds number,</b></p>
+          <div class="tooltip"><label for="rvalue"><i> Re </i></label><input type="number" id="rvalue"
+              style="width: 125px;"> 
+            <span class="tooltiptext">
+              <p> Re =
+                <span style="font-size: large;" class="frac"><sup>Va.ds </sup><span>&frasl;</span>
+                  <sub> &gamma; </sub></span>
+              </p>
+              <p> &gamma; - 1.696*10<sup>-5</sup>
+              <p>upto two decimal places * 10<sup>4</sup></p>
+            </span>
+          </div>
+          <p><input type="button" value="Check" id="rsubmit" style="position: relative; left: 100px;">
+            <span id="symbol9" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span>
+            <span id="symbol10"
+              style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span>
+          </p>
+          <div id="answer5"></div>
+        </div>
+
+        <div>
+          <p><b> Nusselt Number,</b></p>
+          <div class="tooltip"><label for="nvalue"><i> Nu </i></label><input type="number" id="nvalue"
+              style="width: 125px;">
+            <span class="tooltiptext">
+              <p>Nu = <br>0.023(Re) <sup>0.8</sup>(Pr)<sup>n</sup> 
+                <br>n = 0.4 for heating of fluid
+                <br>n = 0.3 for cooling of fluid
+              </p>
+              <p> Pr = 0.699</p>
+              <p>upto two decimal places</p>
+            </span>
+          </div>
+
+          <p><input type="button" value="Check" id="nsubmit" style="position: relative; left: 105px;">
+            <span id="symbol11" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span>
+            <span id="symbol12"
+              style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span>
+          </p>
+          <div id="answer6"></div>
+        </div>
+
+      </div>
+      <!-- secondpage right side -->
+
+      
+      <div style="position: absolute; top: 1px; left: 275px; width: 275px; height: 400px;  text-align: center;">
+        <div >
+          Properties of air at Tm
+        </div>
+
+        <div>
+          <p><b>heat transfer coefficient,</b></p>
+          <div class="tooltip"><label for="hfvalue"><i> h </i></label><input type="number" id="hfvalue"
+              style="width: 125px;"> W/m<sup>2</sup>K
+            <span class="tooltiptext">
+              <p> h =
+                <span style="font-size: large;" class="frac"><sup>Nu.k </sup><span>&frasl;</span>
+                  <sub> Ds </sub></span>
+              </p>
+              <p>k = 0.02756</p>
+              <p>upto two decimal places</p>
+            </span>
+          </div>
+          <p><input type="button" value="Check" id="hfsubmit" style="position: relative; left: 100px;">
+            <span id="symbol13" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span>
+            <span id="symbol14"
+              style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span>
+          </p>
+          <div id="answer7"></div>
+        </div>
+
+        <div>
+          <p><b> Heat transfer rate</b></p>
+          <div class="tooltip"><label for="qvalue"><i> Qc </i></label><input type="number" id="qvalue"
+              style="width: 125px;"> W
+            <span class="tooltiptext">
+              <p>Qc = h.A.(Ts - Ta)
+              </p>
+              <p>A = &pi;.Ds.L</p>
+              <p>upto two decimal places</p>
+            </span>
+          </div>
+          <p><input type="button" value="Check" id="qsubmit" style="position: relative; left: 100px;">
+            <span id="symbol15" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span>
+            <span id="symbol16"
+              style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span>
+          </p>
+          <div id="answer8"></div>
+        </div>
+        
+      </div>
+
+      <div id="togglecalc" style="position:absolute; left:500px; top: 340px;">
+        <img id="switchbuttoncalc2" onclick="switchscreencalc2()" src="./images//bluebkdulls.png" />
+      </div>
+    </div>
+
+
+  </div>
+  <div id="titleincanvas">
+
+  </div>
+
+
+
+  <!-- Region for comment / question prompts style="visibility: hidden";-->
+  <div id="commentboxleft"></div>
+  <div id="commentboxright"></div>
+
+  <!-- DND-Title of region for variables display -->
+  <div id="vartitle">VARIABLES</div>
+
+  <!-- Region for Input parameters of simulation -->
+  <div id="variables">
+
+    <!-- System variable input from user through slider and spinner jQuery widgets 
+repeat block with new variable name and new id for widgets-->
+    <div class="variable">
+      <div class="varname">
+        <p title="Link Length">voltage</p>
+        <input id="vspinner"></input>
+      </div>
+      <div id="vslider"></div>
+    </div>
+
+    <div class="variable">
+      <div class="varname">
+        <p title="Link Length">Q (w)</p>
+        <input id="heat" disabled></input>
+      </div>
+    </div>
+
+    <div class="variable">
+      <div class="varname">
+        <p title="Link Length">T<sub>1</sub> (&deg;C)</p>
+        <input id="temp1" disabled></input>
+      </div>
+    </div>
+
+    <div class="variable">
+      <div class="varname">
+        <p title="Link Length">T<sub>2</sub> (&deg;C)</p>
+        <input id="temp2" disabled></input>
+      </div>
+    </div>
+
+    <div class="variable">
+      <div class="varname">
+        <p title="Link Length">T<sub>3</sub> (&deg;C)</p>
+        <input id="temp3" disabled></input>
+      </div>
+    </div>
+
+    <div class="variable">
+      <div class="varname">
+        <p title="Link Length">T<sub>4</sub> (&deg;C)</p>
+        <input id="temp4" disabled></input>
+      </div>
+    </div>
+
+    <div class="variable">
+      <div class="varname">
+        <p title="Link Length">T<sub>5</sub> (&deg;C)</p>
+        <input id="temp5" disabled></input>
+      </div>
+    </div>
+
+    <div class="variable">
+      <div class="varname">
+        <p title="Link Length">T<sub>6</sub> (&deg;C)</p>
+        <input id="temp6" disabled></input>
+      </div>
+    </div>
+
+    <div class="variable">
+      <div class="varname">
+        <p title="Link Length">T<sub>7</sub> (&deg;C)</p>
+        <input id="temp7" disabled></input>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <!-- DND-Title of region for controls display -->
+  <div id="ctrltitle">CONTROLS</div>
+
+  <!-- Region for User controls of simulation -->
+  <div id="controls">
+    <img id="playpausebutton" onclick="simstate()" src="./images/blueplaydull.png" />
+    <img id="rotationbutton" onclick="rotstate()" src="./images//restartdull.png" />
+    <img id="switchbutton" onclick="switchscreen()" src="./images//bluefwddulls.png" />
+    <!--
+<div class="usercheck">
+<!-- Point tracing
+<input type="checkbox" id="trace" ></input> <p>Trace Mid Point</p>
+<!-- Reset Parameters
+<input type="button" id="resetparams" value="Reset" onclick="varinit();"></input> -->
+  </div>
+
+
+  <!-- DND-Copyright display-->
+  <div id="copyright" title="Developer : Prasad_mandave"> Copyright &copy; SOLVE The Virtual Lab @ NITK Surathkal </div>
+
+  </div><!-- Container div close -->
+
+  <!-- For trials during development
+write in trythis() function the outputs that you want to check.
+<input type='button' onclick='trythis()' value="try me"></input> 
+-->
+
+
+
 </body>
+
 </html>
