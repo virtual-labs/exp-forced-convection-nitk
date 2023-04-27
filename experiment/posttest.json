@@ -12,14 +12,14 @@
       "explanations": {
         "a": "",
         "b": "",
-        "c": "It mostly increases if a denser fluid is used.",
+        "c": "",
         "d": ""
       },
       "correctAnswer": "c",
-      "difficulty": ""
+      "difficulty": "beginner"
     },
     {
-      "question": "For laminar flow over a flat plate, the average value of a Nusselt number is prescribed by the relation <br> Nu = 0.664 (Re) 0.5 (Pr) 0.33 Which of the following is then a false statement?",
+      "question": "For laminar flow over a flat plate, the average value of a Nusselt number is prescribed by the relation<br>Nu = 0.664 (Re) 0.5 (Pr) 0.33 Which of the following is then a false statement?<br>",
       "answers": {
         "a": "Density has to be increased four times",
         "b": "Plate length has to be decreased four times",
@@ -33,7 +33,7 @@
         "d": ""
       },
       "correctAnswer": "d",
-      "difficulty": "The dynamic viscosity has an inverse relation to 1/6 power. To double the convective heat transfer coefficient, the dynamic viscosity has to be decreased 64 times."
+      "difficulty": "intermediate"
     },
     {
       "question": "Heat transfer ____________is conventionally known as convection heat transfer.",
@@ -50,7 +50,7 @@
         "d": ""
       },
       "correctAnswer": "b",
-      "difficulty": ""
+      "difficulty": "intermediate"
     },
     {
       "question": "If the fluid movement is accelerated by an external device such as a fan or pump, then the process is known as?",
@@ -58,7 +58,7 @@
         "a": "Natural convection",
         "b": "Forced convection",
         "c": "Both a & b",
-        "d": "None of the above"
+        "d": "none of the above"
       },
       "explanations": {
         "a": "",
@@ -67,7 +67,7 @@
         "d": ""
       },
       "correctAnswer": "b",
-      "difficulty": ""
+      "difficulty": "beginner"
     },
     {
       "question": "What do you mean by forced convection evaporator?",
@@ -83,8 +83,8 @@
         "c": "",
         "d": ""
       },
-      "correctAnswer": "",
-      "difficulty": ""
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
     }
   ]
 }
