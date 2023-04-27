@@ -2,12 +2,12 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "The Convective heat transfer coefficient in case of fluid flowing in the tubes is not affected by the tube length/diameter ratio, if the flow is in the __________ zone.",
+      "question": "The Convective heat transfer coefficient in case of fluid flowing in the tubes is not affected by the tube length/diameter ratio, if the flow is in the __________ zone",
       "answers": {
         "a": "Laminar",
         "b": "Transition",
-        "c": "Both a & b",
-        "d": "highly turbulent"
+        "c": "Both 'a' & 'b'",
+        "d": "Highly turbulent"
       },
       "explanations": {
         "a": "",
@@ -16,14 +16,14 @@
         "d": ""
       },
       "correctAnswer": "d",
-      "difficulty": ""
+      "difficulty": "beginner"
     },
     {
       "question": "Bulk of the convective heat transfer resistance from a hot tube surface to the fluidflowing in it, is",
       "answers": {
-        "a": "in the central core of the fluid.",
-        "b": "uniformly distributed throughout the fluid.",
-        "c": "mainly confined to a to a thin film of fluid near the surface.",
+        "a": "In the central core of the fluid.",
+        "b": "Uniformly distributed throughout the fluid.",
+        "c": "Mainly confined to a to a thin film of fluid near the surface",
         "d": "None of these"
       },
       "explanations": {
@@ -33,10 +33,10 @@
         "d": ""
       },
       "correctAnswer": "c",
-      "difficulty": ""
+      "difficulty": "intermediate"
     },
     {
-      "question": "Mark the system where heat transfer is given by forced convection.",
+      "question": "Mark the system where heat transfer is given by forced convection",
       "answers": {
         "a": "Chilling effect of cold wind on warm body",
         "b": "Fluid passing through the tubes of a condenser and other heat exchange equipment",
@@ -50,7 +50,7 @@
         "d": ""
       },
       "correctAnswer": "b",
-      "difficulty": ""
+      "difficulty": "advanced"
     },
     {
       "question": "Forced convection in a liquid bath is caused by?",
@@ -58,7 +58,7 @@
         "a": "Intense stirring by an external agency",
         "b": "Molecular energy interactions",
         "c": "Density difference brought about by temperature gradients",
-        "d": " Flow of electrons in a random fashion"
+        "d": "Flow of electrons in a random fashion"
       },
       "explanations": {
         "a": "",
@@ -67,7 +67,7 @@
         "d": ""
       },
       "correctAnswer": "a",
-      "difficulty": ""
+      "difficulty": "intermediate"
     },
     {
       "question": "Examples of forced convection are using water heaters or geysers for instant heating of water.",
@@ -75,7 +75,7 @@
         "a": "True",
         "b": "False",
         "c": "Can be true or false",
-        "d": "None of the above "
+        "d": "None of the above"
       },
       "explanations": {
         "a": "",
@@ -84,7 +84,7 @@
         "d": ""
       },
       "correctAnswer": "a",
-      "difficulty": ""
+      "difficulty": "beginner"
     }
   ]
 }
