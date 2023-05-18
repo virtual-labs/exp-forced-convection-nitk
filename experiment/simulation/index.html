@@ -93,6 +93,9 @@
 
           TimeInterval = setInterval("time1 = time1 + .1; simperiod();", '100');
           TimeInterval1 = setInterval("time2 = time2 + 1; varinit();", '1000');
+          $("#vspinner").spinner({ disabled: true });
+        $("#vslider").slider({ disabled: true });
+
         }
       }
     }
@@ -694,9 +697,7 @@
       if (v != 0) {
         time = 0;
         temp = 1;
-        $("#vspinner").spinner({ disabled: true });
-        $("#vslider").slider({ disabled: true });
-
+        
         clearInterval(simTimeId);
       }
     }
