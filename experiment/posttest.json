@@ -10,10 +10,10 @@
         "d": "Decreases with increase in free stream velocity"
       },
       "explanations": {
-        "a": "",
-        "b": "",
-        "c": "",
-        "d": ""
+        "a": "The right answer is (c). As we move along the plate (increasing the distance from the leading edge), the boundary layer grows thicker. The velocity gradient decreases within this thicker boundary layer, which reduces the rate of convective heat transfer. Consequently, the convective heat transfer coefficient decreases with increasing distance along the plate.",
+        "b": "The right answer is (c). A higher viscosity fluid will have a lower shear rate near the wall of the plate, resulting in a thicker thermal boundary layer. A thicker thermal boundary layer reduces the temperature gradient between the surface of the plate and the fluid, which also reduces the convective heat transfer coefficient.",
+        "c": "Correct, the right answer is (c). The convective heat transfer coefficient in laminar flow over a flat plate increases when a denser fluid is used due to the principles of natural convection.",
+        "d": "The right answer is (c).  When the free stream velocity (the velocity far from the surface) increases, the fluid particles are forced to move faster over the surface of the plate. This increased velocity enhances the velocity gradient within the boundary layer. A higher velocity gradient means there is a larger change in velocity from the surface of the plate to the free stream. This larger change in velocity enhances the mixing of the fluid particles and increases the rate of heat transfer from the surface to the fluid."
       },
       "correctAnswer": "c",
       "difficulty": "beginner"
@@ -27,10 +27,10 @@
         "d": "Dynamic viscosity has to be decreased sixteen times"
       },
       "explanations": {
-        "a": "",
-        "b": "",
-        "c": "",
-        "d": ""
+        "a": "The right answer is (d). If the density of the fluid is increased four times, the Reynolds number will increase four times as well, assuming that the velocity and viscosity remain constant. This would result in a four-fold increase in Nusselt number.",
+        "b": "The right answer is (d). If the plate length is decreased four times, the characteristic length (L) of the system will decrease four times as well. This would result in a four-fold decrease in Nusselt number.",
+        "c": "The right answer is (d). If the specific heat of the fluid is increased four times, the Prandtl number will increase four times as well, assuming that the viscosity and thermal conductivity remain constant. This would result in a four-fold increase in Nusselt number.",
+        "d": "Correct, the right answer is (d). If the dynamic viscosity of the fluid is decreased sixteen times, the Reynolds number will increase sixteen times as well, assuming that the velocity and density remain constant. This would result in a sixteen-fold increase in Nusselt number, which contradicts the prescribed relation for Nusselt number in laminar flow over a flat plate."
       },
       "correctAnswer": "d",
       "difficulty": "intermediate"
@@ -38,18 +38,18 @@
     {
       "question": "Heat transfer ____________is conventionally known as convection heat transfer.",
       "answers": {
-        "a": "between fluid and fluid ",
+        "a": "between fluid and fluid",
         "b": "between a surface and a fluid",
         "c": "only on surface",
-        "d": "None of the above"
+        "d": "Both a and b"
       },
       "explanations": {
-        "a": "",
-        "b": "",
-        "c": "",
-        "d": ""
+        "a": "The right answer is (d). Convection heat transfer is a mode of heat transfer not only between fluid and fluid, but also between a surface and a fluid.",
+        "b": "The right answer is (d). Convection heat transfer is a mode of heat transfer not only between a surface and a fluid, but also between fluid and fluid.",
+        "c": "The right answer is (d). Conduction heat transfer is a mode of heat transfer that transfer only on surface of solid.",
+        "d": "Correct, the right answer is (d). The heat transfer between a surface and a fluid or between fluid and fluid is conventionally known as convection heat transfer."
       },
-      "correctAnswer": "b",
+      "correctAnswer": "d",
       "difficulty": "intermediate"
     },
     {
@@ -61,10 +61,10 @@
         "d": "none of the above"
       },
       "explanations": {
-        "a": "",
-        "b": "",
-        "c": "",
-        "d": ""
+        "a": "The right answer is (b). Natural convection, also known as free convection, is a mechanism of heat and mass transport in which the fluid motion is generated only by density differences in the fluid occurring due to temperature gradients.",
+        "b": "Correct, the right answer is (b). If the fluid movement is accelerated by an external force such as a fan or pump, then the process is known as forced convection.",
+        "c": "The right answer is (b). Natural convection is a mechanism of heat and mass transport in which the fluid motion is generated only by density differences in the fluid occurring due to temperature gradients. If the fluid movement is accelerated by an external force such as a fan or pump, then the process is known as forced convection.",
+        "d": "The right answer is (b). If the fluid movement is accelerated by an external force such as a fan or pump, then the process is known as forced convection."
       },
       "correctAnswer": "b",
       "difficulty": "beginner"
@@ -78,10 +78,10 @@
         "d": "There is an agitator to mix the heating medium such as steam"
       },
       "explanations": {
-        "a": "",
-        "b": "",
-        "c": "",
-        "d": ""
+        "a": "The right answer is (c). By forced convection we mean to say that the fluid being heated does not face wall/surface boiling by providing proper mixing conditions, hence in such evaporators, there is an agitator to mix the heated fluid.",
+        "b": "The right answer is (c). By forced convection we mean to say that the fluid being heated does not face wall/surface boiling by providing proper mixing conditions, hence in such evaporators, there is an agitator to mix the heated fluid.",
+        "c": "Correct, the right answer is (c). By forced convection we mean to say that the fluid being heated does not face wall/surface boiling by providing proper mixing conditions, hence in such evaporators, there is an agitator to mix the heated fluid.",
+        "d": "The right answer is (c). By forced convection we mean to say that the fluid being heated does not face wall/surface boiling by providing proper mixing conditions, hence in such evaporators, there is an agitator to mix the heated fluid."
       },
       "correctAnswer": "c",
       "difficulty": "intermediate"
