@@ -90,6 +90,8 @@ h1 {
   gap: 0.5rem;
 }
 
+
+
 /* ********************** */
 /* *******SIDEBAR******* */
 /* ********************** */
@@ -285,8 +287,8 @@ h1 {
 .explore {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 5rem;
+  gap: 0rem;
+  padding: 1rem;
 }
 
 .objective {
@@ -307,14 +309,23 @@ h1 {
 
 .objective__main {
   border: 2px solid var(--clr-title-background);
+  margin: 5rem;
   font-size: 1.8rem;
   padding: 2rem;
   border-radius: 2rem;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.05);
+  
+}
+
+.container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
 }
 
 .model {
-  width: 100%;
+  width: 70%;
   height: auto;
 }
 
@@ -416,6 +427,7 @@ h1 {
   align-self: center;
 }
 .btn-check {
+  padding: 0.5rem;
   grid-column: 1/-1;
   align-self: center;
 }
@@ -502,25 +514,27 @@ h1 {
   font-weight: 700;
 }
 .btn {
-  padding: 1rem;
   font-weight: 700;
   border: none;
   background-image: linear-gradient(
     to bottom,
     var(--clr-side-background2),
-    var(--clr-side-background3)
+    var(--clr-side-background3),
+    var(--clr-side-background2)
   );
   color: var(--clr-text-clr);
   border-radius: 1rem;
   cursor: pointer;
   transition: all 0.2s;
+  border: 0.3rem solid transparent;
   justify-self: center;
 }
 .btn:hover {
   background-image: linear-gradient(
     to bottom,
     var(--clr-side-background2),
-    var(--clr-side-background3)
+    var(--clr-side-background3),
+    var(--clr-side-background2)
   );
   background-clip: text;
   color: transparent;
@@ -664,6 +678,10 @@ canvas {
 
 .var-spinner {
   justify-self: center;
+}
+
+.canvasjs-chart-credit {
+  display: none;
 }
 
 .var-slider {
