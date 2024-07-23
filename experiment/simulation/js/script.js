@@ -19,6 +19,7 @@ const btnCheck5 = document.querySelector(".btn-check5");
 const btnCheck6 = document.querySelector(".btn-check6");
 const btnCheck7 = document.querySelector(".btn-check7");
 const btnCheck8 = document.querySelector(".btn-check8");
+const taskTitle = document.querySelector(".task-title");
 
 btnStart.addEventListener("click", initiateProcess);
 btnReset.addEventListener("click", resetAll);
@@ -64,12 +65,15 @@ function displayDiv(ele) {
   });
   if (ele.classList.contains("tool-objective")) {
     document.querySelector(".objective").classList.remove("hide");
+    taskTitle.textContent = "Objective";
   }
   if (ele.classList.contains("tool-description")) {
     document.querySelector(".description").classList.remove("hide");
+    taskTitle.textContent = "Description";
   }
   if (ele.classList.contains("tool-explore")) {
     document.querySelector(".explore").classList.remove("hide");
+    taskTitle.textContent = "Experiment";
     if (temp2 !== 1) {
       drawModel();
       startsim();
@@ -78,6 +82,7 @@ function displayDiv(ele) {
   }
   if (ele.classList.contains("tool-practice")) {
     document.querySelector(".practice").classList.remove("hide");
+    taskTitle.textContent = "Solve";
     if (temp2 == 1) {
       temp1 = 1;
       validation();
