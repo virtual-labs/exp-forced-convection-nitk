@@ -12,10 +12,10 @@
 
    ![Alt text](images/expscreen.png)
 
-4. Select any one voltage value and click on the Start button <img src="images/startButton.png" alt="Alt text" > to perform the experiment,click Reset button <img src="images/resetButton.png" alt="Alt text" > to reset the experiment.
+4. Select any one voltage value and click on the Start button <img src="images/startButton.png" alt="Alt text" > to perform the experiment,  click on the Reset button <img src="images/resetButton.png" alt="Alt text" > to reset the experiment.
 
-5. After performing the experiment, click on the Solve icon <img src="images/solveicon.png" alt="Alt text" >.
+5. After performing the experiment,  click on the Solve icon <img src="images/solveicon.png" alt="Alt text" >
 
    ![Alt text](images/solvescreen.png)
 
-6. Calculate the result and click the Check button <img src="images/checkButton.png" alt="Alt text" > to Evaluate the result.
+6. Calculate the result and click Check button <img src="images/checkButton.png" alt="Alt text" > to evaluate the result.
