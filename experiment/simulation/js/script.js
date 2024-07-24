@@ -739,12 +739,35 @@ function resetAll() {
   // Clear any HTML content or form inputs
   document.querySelector(".comment").innerHTML = "";
   document.querySelector(".correct-answer1").innerHTML = "";
-  document.querySelector(".question-unit1").innerHTML = `<sup>&deg;</sup>C/m`;
-  document.querySelector(".question-input1").value = "";
   document.querySelector(".correct-answer2").innerHTML = "";
-  document.querySelector(".question-unit2").innerHTML = `W/m.K`;
+  document.querySelector(".correct-answer3").innerHTML = "";
+  document.querySelector(".correct-answer4").innerHTML = "";
+  document.querySelector(".correct-answer5").innerHTML = "";
+  document.querySelector(".correct-answer6").innerHTML = "";
+  document.querySelector(".correct-answer7").innerHTML = "";
+  document.querySelector(".correct-answer8").innerHTML = "";
+
+  document.querySelector(".question-unit1").innerHTML = `kg/m<sup>3</sup>`;
+  document.querySelector(".question-unit2").innerHTML = `m/s`;
+  document.querySelector(".question-unit3").innerHTML = `m`;
+  document.querySelector(".question-unit4").innerHTML = `m/s`;
+  document.querySelector(".question-unit5").innerHTML = ``;
+  document.querySelector(".question-unit6").innerHTML = ``;
+  document.querySelector(".question-unit7").innerHTML = `W/m<sup>2</sup>K`;
+  document.querySelector(".question-unit8").innerHTML = `W`;
+ 
+  document.querySelector(".question-input1").value = "";
   document.querySelector(".question-input2").value = "";
+  document.querySelector(".question-input3").value = "";
+  document.querySelector(".question-input4").value = "";
+  document.querySelector(".question-input5").value = "";
+  document.querySelector(".question-input6").value = "";
+  document.querySelector(".question-input7").value = "";
+  document.querySelector(".question-input8").value = "";
   // document.getElementById("formula").style.visibility = "hidden";
+
+   // Hide elements with class 'correct' and 'wrong'
+  
 
   // Reset any variables or arrays
   temp2 = 0;
@@ -762,6 +785,8 @@ function resetAll() {
 
   // Redraw the entire model including text
   drawModel();
+  document.querySelectorAll('.correct').forEach(el => el.classList.add('hide'));
+  document.querySelectorAll('.wrong').forEach(el => el.classList.add('hide'));
 }
 
 
