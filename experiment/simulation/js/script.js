@@ -11,7 +11,7 @@ const temperature4 = document.querySelector("#temp4");
 const temperature5 = document.querySelector("#temp5");
 const temperature6 = document.querySelector("#temp6");
 const temperature7 = document.querySelector("#temp7");
-const btnCheck1 = document.querySelector(".btn-check1");
+// const btnCheck1 = document.querySelector(".btn-check1");
 const btnCheck2 = document.querySelector(".btn-check2");
 const btnCheck3 = document.querySelector(".btn-check3");
 const btnCheck4 = document.querySelector(".btn-check4");
@@ -24,9 +24,7 @@ const taskTitle = document.querySelector(".task-title");
 btnStart.addEventListener("click", initiateProcess);
 btnReset.addEventListener("click", resetAll);
 voltageButtons.forEach((voltage) =>
-  voltage.addEventListener("click", () => setVoltage(voltage)
-  
-)
+  voltage.addEventListener("click", () => setVoltage(voltage))
 );
 
 let steadyState = 0;
@@ -44,12 +42,17 @@ let time1 = 0;
 let time2 = 0;
 
 //point tracing section and initial(atmospheric section)
-let t1 = [26, 26, 27, 27.5, 26.5, 27, 28];
+// let t1 = [26, 26, 27, 27.5, 26.5, 27, 28];
+let t1 = [26, 26, 26, 26, 26, 26, 26];
 // let th = [45,45,45,45, 45, 45];
 var off = [0, 0, 0, 0, 0, 0, 0, 0];
 // let slope = [-282.86, -315.71, -354.29];
 // let k = [40.83, 37.99, 37.61];
-var heat = 0, r = 0, k =0, a3=0, data=[];
+var heat = 0,
+  r = 0,
+  k = 0,
+  a3 = 0,
+  data = [];
 
 //temporary or dummy variables for locking buttons
 let temp = 0;
@@ -96,7 +99,6 @@ function displayDiv(ele) {
   }
 }
 
-
 //Change in Variables with respect to time
 function varinit() {
   // varchange();
@@ -106,60 +108,68 @@ function varinit() {
 
   // //$('#vfslider').slider("value", vf);
   // $("#vfspinner").spinner("value", vf);
-  $('#vslider').slider("value", v);	
-	$('#vspinner').spinner("value", v);
+  $("#vslider").slider("value", v);
+  $("#vspinner").spinner("value", v);
   console.log(currentVoltage, vf);
-  if (time2 > 0) { t1[0] += off[0]; };
-  if (time2 > 0) { t1[1] += off[1]; };
-  if (time2 > 0) { t1[2] += off[2]; };
+  if (time2 > 0) {
+    t1[0] += off[0];
+  }
+  if (time2 > 0) {
+    t1[1] += off[1];
+  }
+  if (time2 > 0) {
+    t1[2] += off[2];
+  }
   // console.log("Hi "+t1[2]);
-  if (time2 > 0) { t1[3] += off[3]; };
-  if (time2 > 0) { t1[4] += off[4]; };
-  if (time2 > 0) { t1[5] += off[5]; };
-  if (time2 > 0) { t1[6] += off[6]; };
+  if (time2 > 0) {
+    t1[3] += off[3];
+  }
+  if (time2 > 0) {
+    t1[4] += off[4];
+  }
+  if (time2 > 0) {
+    t1[5] += off[5];
+  }
+  if (time2 > 0) {
+    t1[6] += off[6];
+  }
 
-  if(v == "10"){
+  if (v == "10") {
     heat = 19.6;
     r = 0.4235;
     k = 1.73;
-   
+
     data = [40.75, 36.95, 32.45];
-  }
-  else if(v == "20"){
+  } else if (v == "20") {
     heat = 31.95;
     r = 0.3521;
     k = 2.09;
- 
+
     data = [44.95, 38.55, 33.7];
-  }
-  else if(v == "30"){
+  } else if (v == "30") {
     heat = 47.85;
     r = 0.3103;
     k = 2.37;
-   
+
     data = [49.7, 42.3, 34.85];
-  }
-  else{
+  } else {
     heat = 0;
     r = 0;
     k = 0;
-  
-    data = [0,0,0];
+
+    data = [0, 0, 0];
   }
 
   vfspinner.textContent = vf;
   temperature1.textContent = t1[0].toFixed(2);
   temperature2.textContent = t1[1].toFixed(2);
-  
+
   temperature3.textContent = t1[2].toFixed(2);
   console.log(temperature2.textContent);
   temperature4.textContent = t1[3].toFixed(2);
   temperature5.textContent = t1[4].toFixed(2);
   temperature6.textContent = t1[5].toFixed(2);
   temperature7.textContent = t1[6].toFixed(2);
-
-  
-
 }
 
 //water temperature changes
@@ -201,7 +211,9 @@ function simperiod() {
     draw_array();
     steadyState = 5 - Math.round(time1);
     if (steadyState > 0) {
-      document.querySelector(".comment").innerHTML = `Wait for ${steadyState} seconds for steady state`;
+      document.querySelector(
+        ".comment"
+      ).innerHTML = `Wait for ${steadyState} seconds for steady state`;
       btnReset.setAttribute("disabled", true);
     } else {
       document.querySelector(".comment").innerHTML = "Steady state achieved";
@@ -209,8 +221,6 @@ function simperiod() {
     }
     if (steadyState === 0) {
       temp2 = 0;
-
-    
     }
     // printcomment(
     //   "Wait for " + (5 - Math.round(time1)) + " seconds for steady state",
@@ -220,39 +230,35 @@ function simperiod() {
 }
 //draw gradient w.r.t. time in thermometer water flow and heater
 function drawGradient() {
-//heater simulation
-var h = 500 * time1;
-//create gradient
-var grd1 = ctx.createLinearGradient(0, 0, 0, h)
-grd1.addColorStop(0, "red");
-grd1.addColorStop(1, "white");
-// Fill with gradient
-ctx.fillStyle = grd1;
-ctx.fillRect(320, 216.5, 340, 7.5);
-   
+  //heater simulation
+  var h = 500 * time1;
+  //create gradient
+  var grd1 = ctx.createLinearGradient(0, 0, 0, h);
+  grd1.addColorStop(0, "red");
+  grd1.addColorStop(1, "white");
+  // Fill with gradient
+  ctx.fillStyle = grd1;
+  ctx.fillRect(320, 216.5, 340, 7.5);
 
   //outer parallel tube simulation
   var t1 = 70 * time1;
   //create gradient
-  var grd2 = ctx.createLinearGradient(0, 0, 0, t1)
+  var grd2 = ctx.createLinearGradient(0, 0, 0, t1);
   // grd2.addColorStop(0, "#FF0000");
   grd2.addColorStop(0, "#FF0000");
   grd2.addColorStop(1, "white");
   // Fill with gradient
   ctx.fillStyle = grd2;
   // ctx.fillRect(320, 180, 340, 33.5);
-  ctx.fillRect(320, 225, 340, 40)
-
-
+  ctx.fillRect(320, 225, 340, 40);
 
   //left part
-
 
   var t6 = 70 * time1;
   var y6 = 420 - t6;
 
   //create gradient
-  var grd3 = ctx.createLinearGradient(0, 420, 0, y6)
+  var grd3 = ctx.createLinearGradient(0, 420, 0, y6);
   grd3.addColorStop(0, "#FF0000");
   // grd3.addColorStop(0, "blue");
   grd3.addColorStop(1, "white");
@@ -260,9 +266,6 @@ ctx.fillRect(320, 216.5, 340, 7.5);
   ctx.fillStyle = grd3;
   // ctx.fillRect(320, 225, 340, 40);
   ctx.fillRect(320, 180, 340, 33.5);
-
-
-
 }
 
 // initial model
@@ -281,7 +284,7 @@ function drawModel() {
   ctx.fillText("blower", 120, 325);
   ctx.fillText("G.I. pipe dia(dp)", 430, 400);
   ctx.fillText("Orifice dia(do)", 260, 90);
-  
+
   ctx.fillText("1", 200, 180);
   ctx.fillText("2", 403, 282);
   ctx.fillText("3", 456.5, 282);
@@ -326,10 +329,8 @@ function drawModel() {
   drawGradient();
 }
 
-
 // The rest of your code remains unchanged
 // ...
-
 
 function draw_array() {
   ctx.beginPath();
@@ -339,9 +340,8 @@ function draw_array() {
 
   // Clear previous drawings
 
-
   // Draw red rectangles
-  ctx.fillStyle = '#fff';
+  ctx.fillStyle = "#fff";
   ctx.fillRect(188, 150, 550, 10);
   ctx.fillRect(188, 290, 550, 10);
 
@@ -350,61 +350,56 @@ function draw_array() {
     // ctx.fillStyle = 'red';
     // ctx.fillRect(274, 164, 37, 97); //large box
     ctx.beginPath();
-    ctx.moveTo(230, 200);  // x moved from 210 to 230
-    ctx.lineTo(260, 200);  // x moved from 240 to 260
-    ctx.lineTo(255, 196);  // x moved from 235 to 255
-    ctx.moveTo(260, 200);  // x moved from 240 to 260
-    ctx.lineTo(255, 203);  // x moved from 235 to 255
-    
-    ctx.moveTo(230, 225);  // x moved from 210 to 230
-    ctx.lineTo(260, 225);  // x moved from 240 to 260
-    ctx.lineTo(255, 221);  // x moved from 235 to 255
-    ctx.moveTo(260, 225);  // x moved from 240 to 260
-    ctx.lineTo(255, 228);  // x moved from 235 to 255
+    ctx.moveTo(230, 200); // x moved from 210 to 230
+    ctx.lineTo(260, 200); // x moved from 240 to 260
+    ctx.lineTo(255, 196); // x moved from 235 to 255
+    ctx.moveTo(260, 200); // x moved from 240 to 260
+    ctx.lineTo(255, 203); // x moved from 235 to 255
+
+    ctx.moveTo(230, 225); // x moved from 210 to 230
+    ctx.lineTo(260, 225); // x moved from 240 to 260
+    ctx.lineTo(255, 221); // x moved from 235 to 255
+    ctx.moveTo(260, 225); // x moved from 240 to 260
+    ctx.lineTo(255, 228); // x moved from 235 to 255
     ctx.stroke();
-    
-    
   } else if ((time1 > 0.1 && time1 <= 0.2) || (time1 > 2.1 && time1 <= 2.2)) {
     // ctx.clearRect(88, 165, 33, 34);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = "white";
     ctx.fillRect(230, 195, 33, 34); // small redbox
 
-   
     ctx.beginPath();
-ctx.moveTo(275, 190); // Moved up by 10 units and right by 30 units
-ctx.lineTo(310, 165);
-ctx.lineTo(302, 166);
-ctx.moveTo(310, 165);
-ctx.lineTo(307, 172);
-ctx.stroke();
+    ctx.moveTo(275, 190); // Moved up by 10 units and right by 30 units
+    ctx.lineTo(310, 165);
+    ctx.lineTo(302, 166);
+    ctx.moveTo(310, 165);
+    ctx.lineTo(307, 172);
+    ctx.stroke();
 
-ctx.moveTo(275, 225); // Moved down by 10 units and right by 30 units
-ctx.lineTo(310, 250);
-ctx.lineTo(302, 249);
-ctx.moveTo(310, 250);
-ctx.lineTo(307, 242);
-ctx.stroke();
-  
-    
+    ctx.moveTo(275, 225); // Moved down by 10 units and right by 30 units
+    ctx.lineTo(310, 250);
+    ctx.lineTo(302, 249);
+    ctx.moveTo(310, 250);
+    ctx.lineTo(307, 242);
+    ctx.stroke();
   } else {
     // ctx.clearRect(230, 195, 33, 34);
     // ctx.clearRect(134, 134, 37, 97);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = "white";
     ctx.fillRect(230, 195, 33, 34);
     ctx.fillRect(274, 164, 37, 97);
 
     if (time1 <= 2.3) {
       ctx.beginPath();
       let arrowX1 = 310 + (time1 - 0.3) * 200; // Increased by 20 units
-      ctx.strokeStyle = 'purple'; 
-      
+      ctx.strokeStyle = "purple";
+
       // Top arrow inside red rectangle
       ctx.moveTo(arrowX1, 155);
       ctx.lineTo(arrowX1 + 30, 155);
       ctx.lineTo(arrowX1 + 25, 151);
       ctx.moveTo(arrowX1 + 30, 155);
       ctx.lineTo(arrowX1 + 25, 158);
-    
+
       // Bottom arrow inside red rectangle
       ctx.moveTo(arrowX1, 295);
       ctx.lineTo(arrowX1 + 30, 295);
@@ -413,18 +408,13 @@ ctx.stroke();
       ctx.lineTo(arrowX1 + 25, 298);
       ctx.stroke();
     }
-    
+
     if (time1 > 2.3) {
       ctx.clearRect(188, 150, 550, 10);
       ctx.clearRect(188, 290, 550, 10);
     }
-    
   }
 }
-
-
-
-
 
 function comment1() {
   if (currentVoltage != 0) {
@@ -468,7 +458,7 @@ function offset() {
     off[6] = 4.6;
   } else if (currentVoltage == 30) {
     //path = "./images//currentVoltage3.jpg";
-   off[0] = 4.72;
+    off[0] = 4.72;
     off[1] = 4.76;
     off[2] = 3.5;
     off[3] = 3.75;
@@ -509,7 +499,7 @@ function validation() {
   // datapoints = [
   //   { x: 25, y: t1[0] },
   //   { x: 37, y: t1[1] },
-  //   { x: 52, y: t1[2] },  
+  //   { x: 52, y: t1[2] },
   //   // { x: 0.28, y: t1[3] },
   //   // { x: 0.35, y: t1[4] },
   // ];
@@ -530,27 +520,25 @@ function validation() {
   // btnCheck2.addEventListener("click", () => validateAnswer2());
   if (currentVoltage == 10) {
     t1 = [40.75, 36.95, 32.45];
-    
+
     r = 1.1652;
     k = 46.88;
-    a3=291.79;
-    a4=30;
-    a5=4.42;
-    a6=107.5;
-    a7=118.51;
-    a8=54.72;
-
+    a3 = 291.79;
+    a4 = 30;
+    a5 = 4.42;
+    a6 = 107.5;
+    a7 = 118.51;
+    a8 = 54.72;
   } else if (currentVoltage == 20) {
     t1 = [44.95, 38.55, 33.7];
     r = 1.1652;
     k = 46.88;
-    a3=291.79;
-    a4=30;
-    a5=4.42;
-    a6=107.5;
-    a7=118.51;
-    a8=54.72;
-
+    a3 = 291.79;
+    a4 = 30;
+    a5 = 4.42;
+    a6 = 107.5;
+    a7 = 118.51;
+    a8 = 54.72;
   } else if (currentVoltage == 30) {
     t1 = [49.7, 42.3, 34.85];
     r = 0.3103;
@@ -559,14 +547,14 @@ function validation() {
   var datapoints = [
     { x: 25, y: t1[0] },
     { x: 37, y: t1[1] },
-    { x: 52, y: t1[2] }
+    { x: 52, y: t1[2] },
   ];
 
   document.querySelector(".graph-div").classList.remove("hide");
   document.querySelector(".questions").classList.remove("hide");
   drawgraph("graph", datapoints, "Length from heater", "Average Temperatures");
 
-  btnCheck1.addEventListener("click", () => validateAnswer1());
+  // btnCheck1.addEventListener("click", () => validateAnswer1());
   btnCheck2.addEventListener("click", () => validateAnswer2());
   btnCheck3.addEventListener("click", () => validateAnswer3());
   btnCheck4.addEventListener("click", () => validateAnswer4());
@@ -583,13 +571,17 @@ function validateAnswer1() {
   let userEnteredValue = Number(
     document.querySelector(".question-input1").value
   );
-  let answer = userEnteredValue === r ? true : false;
+  // let answer = userEnteredValue === r ? true : false;
+  let answer = validateNearToAnswer(r, userEnteredValue);
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
     unit.innerHTML += " <span class='wrong'>&#x2717;</span>";
-    correctAnswer.innerHTML = '<p><span style="color: #028102;">Correct answer</span> <span style="color: #e7722b;">&rho;<sub>a</sub> = '+r+' <sup></sup>kg/m<sup>3</span>';
-    console.log("hi " +r);
+    correctAnswer.innerHTML =
+      '<p><span style="color: #028102;">Correct answer</span> <span style="color: #e7722b;">&rho;<sub>a</sub> = ' +
+      r +
+      " <sup></sup>kg/m<sup>3</span>";
+    console.log("hi " + r);
   } else if (answer) {
     correctAnswer.classList.add("hide");
     unit.innerHTML += " <span class='correct'>&#x2713;</span>";
@@ -602,12 +594,16 @@ function validateAnswer2() {
   let userEnteredValue = Number(
     document.querySelector(".question-input2").value
   );
-  let answer = userEnteredValue === k ? true : false;
+  // let answer = userEnteredValue === k ? true : false;
+  let answer = validateNearToAnswer(k, userEnteredValue);
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
     unit.innerHTML += " <span class='wrong'>&#x2717;</span>";
-    correctAnswer.innerHTML = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> V<sub>o</sub> = '+k+' m/s</span> ';
+    correctAnswer.innerHTML =
+      '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> V<sub>o</sub> = ' +
+      k +
+      " m/s</span> ";
   } else if (answer) {
     correctAnswer.classList.add("hide");
     unit.innerHTML += " <span class='correct'>&#x2713;</span>";
@@ -621,12 +617,16 @@ function validateAnswer3() {
   let userEnteredValue = Number(
     document.querySelector(".question-input3").value
   );
-  let answer = userEnteredValue === a3 ? true : false;
+  // let answer = userEnteredValue === a3 ? true : false;
+  let answer = validateNearToAnswer(a3, userEnteredValue);
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
     unit.innerHTML += " <span class='wrong'>&#x2717;</span>";
-    correctAnswer.innerHTML = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> h<sub>a</sub> = '+a3+' m</span> ';
+    correctAnswer.innerHTML =
+      '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> h<sub>a</sub> = ' +
+      a3 +
+      " m</span> ";
   } else if (answer) {
     correctAnswer.classList.add("hide");
     unit.innerHTML += " <span class='correct'>&#x2713;</span>";
@@ -640,12 +640,16 @@ function validateAnswer4() {
   let userEnteredValue = Number(
     document.querySelector(".question-input4").value
   );
-  let answer = userEnteredValue === a4 ? true : false;
+  // let answer = userEnteredValue === a4 ? true : false;
+  let answer = validateNearToAnswer(a4, userEnteredValue);
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
     unit.innerHTML += " <span class='wrong'>&#x2717;</span>";
-    correctAnswer.innerHTML = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;">V<sub>a</sub> = '+a4+' m/s</span> ';
+    correctAnswer.innerHTML =
+      '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;">V<sub>a</sub> = ' +
+      a4 +
+      " m/s</span> ";
   } else if (answer) {
     correctAnswer.classList.add("hide");
     unit.innerHTML += " <span class='correct'>&#x2713;</span>";
@@ -659,12 +663,16 @@ function validateAnswer5() {
   let userEnteredValue = Number(
     document.querySelector(".question-input5").value
   );
-  let answer = userEnteredValue === a5 ? true : false;
+  // let answer = userEnteredValue === a5 ? true : false;
+  let answer = validateNearToAnswer(a5, userEnteredValue);
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
     unit.innerHTML += " <span class='wrong'>&#x2717;</span>";
-    correctAnswer.innerHTML = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Re = '+a5+'</span> ';
+    correctAnswer.innerHTML =
+      '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Re = ' +
+      a5 +
+      "</span> ";
   } else if (answer) {
     correctAnswer.classList.add("hide");
     unit.innerHTML += " <span class='correct'>&#x2713;</span>";
@@ -678,12 +686,16 @@ function validateAnswer6() {
   let userEnteredValue = Number(
     document.querySelector(".question-input6").value
   );
-  let answer = userEnteredValue === a6 ? true : false;
+  // let answer = userEnteredValue === a6 ? true : false;
+  let answer = validateNearToAnswer(a6, userEnteredValue);
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
     unit.innerHTML += " <span class='wrong'>&#x2717;</span>";
-    correctAnswer.innerHTML = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Nu = '+a6+'</span> ';
+    correctAnswer.innerHTML =
+      '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Nu = ' +
+      a6 +
+      "</span> ";
   } else if (answer) {
     correctAnswer.classList.add("hide");
     unit.innerHTML += " <span class='correct'>&#x2713;</span>";
@@ -697,12 +709,16 @@ function validateAnswer7() {
   let userEnteredValue = Number(
     document.querySelector(".question-input7").value
   );
-  let answer = userEnteredValue === a7 ? true : false;
+  // let answer = userEnteredValue === a7 ? true : false;
+  let answer = validateNearToAnswer(a7, userEnteredValue);
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
     unit.innerHTML += " <span class='wrong'>&#x2717;</span>";
-    correctAnswer.innerHTML = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> h = '+a7+' W/m<sup>2</sup>K</span> ';
+    correctAnswer.innerHTML =
+      '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> h = ' +
+      a7 +
+      " W/m<sup>2</sup>K</span> ";
   } else if (answer) {
     correctAnswer.classList.add("hide");
     unit.innerHTML += " <span class='correct'>&#x2713;</span>";
@@ -716,19 +732,32 @@ function validateAnswer8() {
   let userEnteredValue = Number(
     document.querySelector(".question-input8").value
   );
-  let answer = userEnteredValue === a8 ? true : false;
+  // let answer = userEnteredValue === a8 ? true : false;
+  let answer = validateNearToAnswer(a8, userEnteredValue);
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
     unit.innerHTML += " <span class='wrong'>&#x2717;</span>";
-    correctAnswer.innerHTML = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Qc = '+a8+' W</span> ';
+    correctAnswer.innerHTML =
+      '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> Qc = ' +
+      a8 +
+      " W</span> ";
   } else if (answer) {
     correctAnswer.classList.add("hide");
     unit.innerHTML += " <span class='correct'>&#x2713;</span>";
   }
 }
+function validateNearToAnswer(exactAnswer, userAnswer) {
+  const tolerance = 0.01; // Define the tolerance level
+  const lowerBound = exactAnswer - tolerance;
+  const upperBound = exactAnswer + tolerance;
 
-
+  if (userAnswer < lowerBound || userAnswer > upperBound) {
+    return false; // Answer is outside the tolerance range
+  } else {
+    return true; // Answer is within the tolerance range
+  }
+}
 function resetAll() {
   btnStart.setAttribute("disabled", true); // Disable start button or adjust as needed
   voltageButtons.forEach((voltage) => {
@@ -755,7 +784,7 @@ function resetAll() {
   document.querySelector(".question-unit6").innerHTML = ``;
   document.querySelector(".question-unit7").innerHTML = `W/m<sup>2</sup>K`;
   document.querySelector(".question-unit8").innerHTML = `W`;
- 
+
   document.querySelector(".question-input1").value = "";
   document.querySelector(".question-input2").value = "";
   document.querySelector(".question-input3").value = "";
@@ -766,13 +795,13 @@ function resetAll() {
   document.querySelector(".question-input8").value = "";
   // document.getElementById("formula").style.visibility = "hidden";
 
-   // Hide elements with class 'correct' and 'wrong'
-  
+  // Hide elements with class 'correct' and 'wrong'
 
   // Reset any variables or arrays
   temp2 = 0;
   temp1 = 2;
-  t1 = [26, 26, 27, 27.5, 26.5, 27, 28]; // Reset array values as needed
+  // t1 = [26, 26, 27, 27.5, 26.5, 27, 28]; // Reset array values as needed
+  t1 = [26, 26, 26, 26, 26, 26, 26]; // Reset array values as needed
   currentVoltage = 0;
   vf = 0;
 
@@ -785,10 +814,11 @@ function resetAll() {
 
   // Redraw the entire model including text
   drawModel();
-  document.querySelectorAll('.correct').forEach(el => el.classList.add('hide'));
-  document.querySelectorAll('.wrong').forEach(el => el.classList.add('hide'));
+  document
+    .querySelectorAll(".correct")
+    .forEach((el) => el.classList.add("hide"));
+  document.querySelectorAll(".wrong").forEach((el) => el.classList.add("hide"));
 }
-
 
 function movetoTop() {
   practiceDiv.scrollIntoView();
