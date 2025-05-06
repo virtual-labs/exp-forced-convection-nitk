@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SOLVE - Heat transfer Lab - Heat Transfer Coefficient of a Composite Wall</title>
+    <title>SOLVE - Heat transfer Lab - Heat transfer by forced convection </title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -218,16 +218,17 @@
                     <div class="formula-text" >
             
                       <div class="question-formula">
-                        <p>Tm = Ts + Ta/2 K</p>
-                        <p>Ts = T2+T3+T4+T5+T6/5 K</p>
-                        <p>Ta = 303 K</p>
                         <p>Properties of air at Tm</p>
+                        <p>Tm = (Ts + Ta)/2 K</p>
+                        <p>Ts = (T2+T3+T4+T5+T6)/5 K</p>
+                        <p>Ta = 303 K</p>
+                        <p>Mass density of air = 1.12 kg/m<sup>3</sup></p>
                    
                       </div>
                 
                     </div>
-                    <p class="warning"> Please enter a value rounded upto two decimal points</p>
-                    <div class="question-one">
+                    <!-- <p class="warning"> Please enter a value rounded upto two decimal points</p> -->
+                    <!-- <div class="question-one">
                       <div class="question-title">Mass Density of air</div>
                       <div class="question-formula">&rho;<sub>a</sub> = <span style="font-size: large;" class="frac"><sup>P</sup><span>&frasl;</span><sub>R.T<sub>R</sub></span> kg/m<sup>3</sup>
                         <p>P<sub>atm - 101325 N/m<sup>2</sup></p>
@@ -240,6 +241,18 @@
                       <p class="question-unit question-unit1"><sup></sup>kg/m<sup>3</sup></p>
                       <p class="correct-answer correct-answer1 hide"></p>
                       <button class="btn btn-check btn-check1">Check</button>
+                    </div> -->
+                    <div class="question-three">
+                      <div class="question-title">Pressure drop</div>
+                      <div class="question-formula">h<sub>a</sub> = <span style="font-size: large;" class="frac"><sup>&rho;m.hm</sup><span>&frasl;</span><sub>&rho;a</sub></span> m
+                      <p>&rho;m(mercury) -13600 kg/m<sup>3</sup></p>
+                      <p>manometer reading hm -25mm</p>
+                      </div>
+                      <p class="question-label">h<sub>a</sub> =  </p>
+                      <input class="question-input question-input3" type="number"/>
+                      <p class="question-unit question-unit3">m</p>
+                      <p class="correct-answer correct-answer3 hide"></p>
+                      <button class="btn btn-check btn-check3">Check</button>
                     </div>
                     <div class="question-two">
                       <div class="question-title">V<sub>air</sub> at orifice,</div>
@@ -254,18 +267,7 @@
                       <button class="btn btn-check btn-check2">Check</button>
                     </div>
 
-                    <div class="question-three">
-                      <div class="question-title">Pressure drop</div>
-                      <div class="question-formula">h<sub>a</sub> = <span style="font-size: large;" class="frac"><sup>&rho;m.hm</sup><span>&frasl;</span><sub>&rho;a</sub></span> m
-                      <p>&rho;m(mercury) -13600 kg/m<sup>3</sup></p>
-                      <p>manometer reading hm -25mm</p>
-                      </div>
-                      <p class="question-label">h<sub>a</sub> =  </p>
-                      <input class="question-input question-input3" type="number"/>
-                      <p class="question-unit question-unit3">m</p>
-                      <p class="correct-answer correct-answer3 hide"></p>
-                      <button class="btn btn-check btn-check3">Check</button>
-                    </div>
+                    
                     <div class="question-four">
                       <div class="question-title">V<sub>air</sub> in the tube</div>
                       <div class="question-formula">V<sub>a</sub> = <span style="font-size: large;" class="frac"><sup>V<sub>o</sub>d<sub>o</sub><sup>2</sup> </sup><span>&frasl;</span><sub>ds<sup>2</sup></sub></span> m/s</div>
