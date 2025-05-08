@@ -55,7 +55,7 @@ h1 {
   box-shadow: 0 0 0 0.3rem rgba(255, 255, 255, 0.55);
 }
 
-#specimen{
+#specimen {
   grid-column: 1/-1;
 }
 
@@ -90,8 +90,6 @@ h1 {
   gap: 0.5rem;
 }
 
-
-
 /* ********************** */
 /* *******SIDEBAR******* */
 /* ********************** */
@@ -110,7 +108,8 @@ h1 {
   cursor: pointer;
 }
 
-#v10,#v20{
+#v10,
+#v20 {
   cursor: pointer;
 }
 
@@ -319,14 +318,12 @@ h1 {
   padding: 2rem;
   border-radius: 2rem;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.05);
-  
 }
 
 .container2 {
   display: flex;
   justify-content: center;
   align-items: center;
- 
 }
 
 .model {
@@ -387,8 +384,13 @@ h1 {
   gap: 0.5rem;
 }
 .question-one,
-.question-two,.question-three,.question-four,.question-five,.question-six,.question-seven,.question-eight
-{
+.question-two,
+.question-three,
+.question-four,
+.question-five,
+.question-six,
+.question-seven,
+.question-eight {
   border-radius: 0.2rem;
   padding: 0.2rem;
   display: grid;
@@ -397,7 +399,7 @@ h1 {
   border: 0.2rem solid var(--clr-title-background);
 }
 
-.formula-text{
+.formula-text {
   border-radius: 0.2rem;
   padding: 0.3rem;
   display: grid;
@@ -430,6 +432,7 @@ h1 {
 }
 .question-unit {
   align-self: center;
+  justify-self: start;
 }
 .btn-check {
   padding: 0.5rem;
@@ -437,17 +440,15 @@ h1 {
   align-self: center;
 }
 
-#formula{
+#formula {
   grid-column: 1/-1;
   position: relative;
   justify-self: center;
   background-color: white; /* Optional: background color for better visibility */
   padding: 20px; /* Optional: padding around the content */
-  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional: subtle shadow */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
   border-radius: 10px; /* Optional: rounded corners */
-  
 }
-
 
 .correct-answer {
   grid-column: 1 / -1;
