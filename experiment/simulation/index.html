@@ -1,13 +1,350 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
-</head>
-<body>
-		<!-- Your code goes here-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SOLVE - Heat transfer Lab - Heat transfer by forced convection </title>
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
-</body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="./css/mathstyle.css" rel="stylesheet" /><!--Stylesheet to display Math functions -->
+
+    <link rel="stylesheet" href="css/query.css" />
+    <!-- <script defer src="https://code.jquery.com/jquery.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <script
+      defer
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://code.jquery.com/ui/1.8.17/jquery-ui.min.js"
+    ></script>
+    <!-- <script defer src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
+    <script defer src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script
+      defer
+      type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"
+    ></script>
+    <script defer src="./js/graph.ob.js"></script>
+<script defer src="./js/graph_use.ob.js"></script>
+<script defer src="./js/graph_use2.ob.js"></script>
+  </head>
+  <body>
+    <div class="title-div-container">
+      <div class="title-div">
+        <div class="logo-div">
+          <a href="#"
+            ><img src="images/logo_nitk.png" alt="Logo" class="logo"
+          /></a>
+        </div>
+        <h1>Heat transfer by forced convection</h1>
+      </div>
+    </div>
+    <div class="container">
+      <div class="sidebar">
+        <ul class="tool-menu">
+          <li class="tool-list tool-objective" onclick="displayDiv(this)">
+            <a class="tool-link" title="Objective">
+              <img src="./images/objective.png" alt="Objective" class="icons" />
+            </a>
+            <span>Objective</span>
+          </li>
+          <li class="tool-list tool-description" onclick="displayDiv(this)">
+            <a class="tool-link" title="Description"
+              ><img
+                src="./images/description.png"
+                alt="Description"
+                class="icons"
+            /></a>
+            <span>Description</span>
+          </li>
+
+          <li class="tool-list tool-explore" onclick="displayDiv(this)">
+            <a class="tool-link" title="Explore"
+              ><img src="./images/explore.png" alt="Explore" class="icons"
+            /></a>
+            <span>Experiment</span>
+          </li>
+          <li class="tool-list tool-practice" onclick="displayDiv(this)">
+            <a class="tool-link" title="Solve"
+              ><img src="./images/solution.png" alt="solution" class="icons"
+            /></a>
+            <span>Solve</span>
+          </li>
+        </ul>
+      </div>
+      <div class="main">
+        <div class="main-section">
+          <div id="simulation" class="main__task-div">
+            <h3 class="task-title">Objective</h3>
+
+            <div class="canvas__div">
+              <div class="task-screen objective">
+                <!-- <h3 class="objective__title">Objective</h3> -->
+                <p class="objective__main">
+                  To determine the convective heat transfer coefficient and the rate of heat transfer by forced convection 
+                  for flow of air inside a horizontal pipe.
+                </p>
+              </div>
+              <div class="task-screen description hide">
+                <!-- <h3 class="description__title">Description</h3> -->
+                <div class="description-conatiner">
+                  <div class="container2">
+                  <img src="./images/modelnew.png" alt="apparatus" class="model" />
+                </div>
+                  <div class="model-detail">
+                    <p>D<sub>p</sub> -  40mm</p><br>
+                    <p>D<sub>o</sub> -  20mm</p><br>
+                    <p id="specimen" style="width: 100%;">specimen dimension - 23x300 mm</p>
+                    <!-- <p>C<sub>p</sub> = 4.18kJ/kg-K</p>
+                    <p>Length of shaded area = 300mm</p> -->
+                  </div>
+                </div>
+              </div>
+              <div class="task-screen explore hide">
+                <div class="explore-controls">
+                  <div class="voltage-set">
+                    <p>Set voltage</p>
+                    <button class="btn btn-start" disabled>Start</button>
+                    <button class="btn btn-reset">Reset</button>
+                  </div>
+                  <div class="input-group">
+                    <input
+                      type="radio"
+                      name="voltage"
+                      id="v10"
+                      value="10"
+                      class="voltage"
+                    />
+                    <label for="v10" class="voltage_label">10V</label>
+                  </div>
+                  <div class="input-group" style="visibility: hidden;">
+                    <input
+                      type="radio"
+                      name="voltage"
+                      id="v30"
+                      value="30"
+                      class="voltage"
+                    />
+                    <label for="v30"  class="voltage_label" style="visibility: hidden;">60V</label>
+                  </div>
+                  <div class="input-group">
+                    <input
+                      type="radio"
+                      name="voltage"
+                      id="v20"
+                      value="20"
+                      class="voltage"
+                    />
+                    <label for="v20" class="voltage_label">20V</label>
+                  </div>
+                  
+                  <div class="temperature-set">
+                    <div class="temperature-group">
+                      <span class="temp-text">Q(w)</span>
+                      <span class="temp-val" id="vfspinner">10</span>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">T1(&deg;C)</span>
+                      <span class="temp-val" id="temp1">10</span>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">T2(&deg;C)</span>
+                      <span class="temp-val" id="temp2">10</span>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">T3(&deg;C)</span>
+                      <span class="temp-val" id="temp3">10</span>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">T4(&deg;C)</span>
+                      <span class="temp-val" id="temp4">10</span>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">T5(&deg;C)</span>
+                      <span class="temp-val" id="temp5">10</span>
+                    </div>  
+                    <div class="temperature-group">
+                      <span class="temp-text">T6(&deg;C)</span>
+                      <span class="temp-val" id="temp6">27</span>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">T7(&deg;C)</span>
+                      <span class="temp-val" id="temp7">28</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="comment"></p>
+
+                <canvas
+                  id="simscreen"
+                  width="800"
+                  height="450"
+                  class="canvas"
+                ></canvas>
+                </div>
+                <div class="task-screen practice hide">
+                  
+                  <p id="info">Temperature Gradient</p>
+                 
+                  <div class="graph-div" style="display: none;">
+                    <div class="graph" id="graph"></div>
+                  </div>
+                  <!-- <div id="formula" style="visibility: hidden;">
+                    Tm = Ts + Ta/2 K <br>
+                    Ts = T2+T3+T4+T5+T6/5 K <br>
+                    Ta = 303 K <br>
+                    <p>Properties of air at Tm</p>
+                  </div> -->
+
+
+                  <div class="questions">
+                   
+
+                    <div class="formula-text" >
+            
+                      <div class="question-formula" >
+                        <p style="justify-self: start;">$$Properties \space of \space air \space at \space T_m$$</p>
+                        <p style="justify-self: start;">$$T_m = \frac{(T_s + T_a)}{2} K$$</p>
+                        <p style="justify-self: start;">$$T_s = \frac{(T_2+T_3+T_4+T_5+T_6)}{5} K$$</p>
+                        <p style="justify-self: start;">$$T_a = 303 K$$</p>
+                        <p style="justify-self: start;">$$Mass \space density \space of \space air = 1.12 kg/m^3$$</p>
+                   
+                      </div>
+                
+                    </div>
+                    <!-- <p class="warning"> Please enter a value rounded upto two decimal points</p> -->
+                    <!-- <div class="question-one">
+                      <div class="question-title">Mass Density of air</div>
+                      <div class="question-formula">&rho;<sub>a</sub> = <span style="font-size: large;" class="frac"><sup>P</sup><span>&frasl;</span><sub>R.T<sub>R</sub></span> kg/m<sup>3</sup>
+                        <p>P<sub>atm - 101325 N/m<sup>2</sup></p>
+                        <p>T<sub>atm - 303K</sub></p>
+                        <p>R - 287 J/kg</p>
+                        <p style="color: green;">Upto four decimal places</p>
+                      </div>
+                      <p class="question-label">&rho;<sub>a</sub> = </p>
+                      <input class="question-input question-input1" type="number"/>
+                      <p class="question-unit question-unit1"><sup></sup>kg/m<sup>3</sup></p>
+                      <p class="correct-answer correct-answer1 hide"></p>
+                      <button class="btn btn-check btn-check1">Check</button>
+                    </div> -->
+                    <div class="question-three">
+                      <div class="question-title">Pressure drop</div>
+                      <div class="question-formula">
+                        <p>$$h_a = \frac{\rho m. hm}{\rho a}m$$</p>
+                      <p>$$\rho m(mercury) = 13600 kg/m^3$$</p>
+                      <p>$$Manometer \space Reading \space hm  = 25mm$$</p>
+                      </div>
+                      <p class="question-label">$$h_a = $$</p>
+                      <input class="question-input question-input3" type="number"/>
+                      <p class="question-unit question-unit3">$$m$$</p>
+                      <p class="correct-answer correct-answer3 hide"></p>
+                      <button class="btn btn-check btn-check3">Check</button>
+                    </div>
+                    <div class="question-two">
+                      <div class="question-title">V<sub>air</sub> at orifice,</div>
+                      <div class="question-formula">
+                      <p>$$V_o = \frac{C_d. (2.g.h_a)^{1/2}}{(1-(d_0/d_p)^4)^{1/2}} m/s$$</p>
+                      <p>$$C_d= 0.6$$</p>
+                      </div>
+
+                      <p class="question-label">$$V_o = $$</p>
+                      <input class="question-input question-input2" type="number"/>
+                      <p class="question-unit question-unit2">$$m/s$$</p>
+                      <p class="correct-answer correct-answer2 hide"></p>
+                      <button class="btn btn-check btn-check2">Check</button>
+                    </div>
+
+                    
+                    <div class="question-four">
+                      <div class="question-title">V<sub>air</sub> in the tube</div>
+                      <div class="question-formula">$$V_a = \frac{V_o d_o^2}{d_s^2}m/s$$</div>
+                      <p class="question-label">$$V_a =  $$</p>
+                      <input class="question-input question-input4" type="number"/>
+                      <p class="question-unit question-unit4">$$m/s$$</p>
+                      <p class="correct-answer correct-answer4 hide"></p>
+                      <button class="btn btn-check btn-check4">Check</button>
+                    </div>
+                    <div class="question-five">
+                      <div class="question-title">Reynolds number</div>
+                      <div class="question-formula">
+                        <p>$$R_e = \frac{V_a.d_s}{\gamma}$$</p>
+                      <p>$$\gamma = 1.696*10^{-5}$$</p>
+                      </div>
+                      <p class="question-label">$$R_e = $$ </p>
+                      <input class="question-input question-input5" type="number"/>
+                      <p class="question-unit question-unit5"></p>
+                      <p class="correct-answer correct-answer5 hide"></p>
+                      <button class="btn btn-check btn-check5">Check</button>
+                    </div>
+                    <div class="question-six">
+                      <div class="question-title">Nusselt Number</div>
+                      <div class="question-formula">
+                        <p style="justify-self: start;">$$N_u = 0.023 (R_e)^{0.8}(P_r)^n$$</p>
+                      <p style="justify-self: start;">$$n = 0.4\space for\space heating\space of\space fluid$$</p>
+                      <p style="justify-self: start;">$$n = 0.3\space for\space cooling\space of\space fluid$$</p>
+                      <p style="justify-self: start;">$$P_r=0.699$$</p>
+                      </div>
+                      <p class="question-label">$$Nu = $$ </p>
+                      <input class="question-input question-input6" type="number"/>
+                      <p class="question-unit question-unit6"></p>
+                      <p class="correct-answer correct-answer6 hide"></p>
+                      <button class="btn btn-check btn-check6">Check</button>
+                    </div>
+                    <div class="question-seven">
+                      <div class="question-title">Heat transfer coefficient</div>
+                      <div class="question-formula">
+                      <p>$$h = \frac{N_u.k}{D_s}W/m^2K$$</p>
+                      <p>$$k = 0.02756$$</p>
+                      </div>
+                      <p class="question-label">$$h = $$ </p>
+                      <input class="question-input question-input7" type="number"/>
+                      <p class="question-unit question-unit7">$$W/m^2K$$</p>
+                      <p class="correct-answer correct-answer7 hide"></p>
+                      <button class="btn btn-check btn-check7">Check</button>
+                    </div>
+                    <div class="question-eight">
+                      <div class="question-title">Heat transfer rate</div>
+                      <div class="question-formula">
+                        <p>$$Q_c = \frac{h.A}{(T_s - T_a)}W$$</p>
+                        <p>$$A = \pi.D_s.L$$</p>
+                       
+                      </div>
+                      <p class="question-label">$$Qc =  $$</p>
+                      <input class="question-input question-input8" type="number"/>
+                      <p class="question-unit question-unit8">$$W$$</p>
+                      <p class="correct-answer correct-answer8 hide"></p>
+                      <button class="btn btn-check btn-check8">Check</button>
+                    </div>
+                    
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="main__task-div footer">
+            <p>Copyright © SOLVE The Virtual Lab @ NITK Surathkal</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script defer src="js/script.js"></script>
+  </body>
 </html>
